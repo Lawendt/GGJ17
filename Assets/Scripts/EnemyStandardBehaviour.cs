@@ -11,7 +11,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
         Scale
     }
     #region SetUp
-    
+
     public AnimationCurve deathCurve;
     public TypeOfDeath typeOfDeath;
     public EnemyType type;
@@ -136,7 +136,8 @@ public class EnemyStandardBehaviour : MonoBehaviour
                 Vector2 start = v;
                 while (v.x > 0.15)
                 {
-
+                    if (!star.isPlaying)
+                        star.Play();
                     v.x = (deathCurve.Evaluate(t)) * start.x;
                     v.y = (deathCurve.Evaluate(t)) * start.y;
                     transform.localScale = v;
@@ -154,8 +155,8 @@ public class EnemyStandardBehaviour : MonoBehaviour
         Debug.Log("Start Enjoy " + name + "\nTold to wait " + timeToWait);
         if (timeToWait != 0)
             yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timeToWait);
-        star.Play();
-        
+    
+
         animator.SetTrigger("Enjoy");
         walking = false;
         StartCoroutine("_scaleDown");
@@ -260,5 +261,5 @@ public class EnemyStandardBehaviour : MonoBehaviour
     }
     #endregion
 
- 
+
 }
