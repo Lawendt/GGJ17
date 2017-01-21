@@ -57,35 +57,35 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.UpArrow))
         {
-           
+            KeyUp(EnemyType.Punk);
         }
         if (Input.GetKeyUp(KeyCode.DownArrow))
         {
-            queueInteraction.Remove(EnemyType.Classic);
-            StopPlaying(EnemyType.Classic); //Tocando Clássico
+            KeyUp(EnemyType.Classic);
         }
         if (Input.GetKeyUp(KeyCode.RightArrow))
         {
-
-            queueInteraction.Remove(EnemyType.Reggae);
-            StopPlaying(EnemyType.Reggae); //Tocando Reggae
+            KeyUp(EnemyType.Reggae);
         }
         if (Input.GetKeyUp(KeyCode.LeftArrow))
         {
-            queueInteraction.Remove(EnemyType.Eletronic);
-            StopPlaying(EnemyType.Eletronic); //Tocando Eletrônica
+            KeyUp(EnemyType.Eletronic);
+
         }
 
     }
 
     public void KeyUp(EnemyType type)
     {
-        if (currentEnemy == EnemyType.Punk)
+        queueInteraction.Remove(type);
+        if (currentEnemy == type && queueInteraction.Count != 0)
         {
-
+            StartPlaying(queueInteraction[queueInteraction.Count - 1]);
         }
-        queueInteraction.Remove(EnemyType.Punk);
-        StopPlaying(EnemyType.Punk); //Tocando Punk
+        else
+        {
+            StopPlaying(type); //Tocando Punk
+        }
 
     }
 

@@ -57,7 +57,7 @@ MonoBehaviour:
   length: 0
   velocity: 0
   type: 0
-  velScaleDown: 0.5
+  velScaleDown: 1
   receivedEnjoy: 0
   prefabType:
   - {fileID: 1765978043167792, guid: ce78e2b127b878b45a837346f6d9827b, type: 2}
