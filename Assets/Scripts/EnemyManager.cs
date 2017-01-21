@@ -45,6 +45,7 @@ public class EnemyManager : Singleton<EnemyManager>
     public float distanceToBeAffected;
     public float timetoWaitToEnjoy = 1f;
 
+    public float minRandom, maxRandom;
 
 
     // Use this for initialization
@@ -78,7 +79,7 @@ public class EnemyManager : Singleton<EnemyManager>
             case TypeGeneration.random:
                 while (true)
                 {
-                    float time = UnityEngine.Random.Range(0, 500) / 100;
+                    float time = UnityEngine.Random.Range(minRandom * 100, maxRandom * 100) / 100;
                     yield return new WaitForSeconds(time);
                     InstanceEnemy((EnemyType)UnityEngine.Random.Range(0, 4), i);
                     i++;
@@ -93,9 +94,16 @@ public class EnemyManager : Singleton<EnemyManager>
     public void InstanceEnemy(EnemyType type, int i)
     {
         GameObject e = Instantiate(enemyPrefab);
-        e.name = type.ToString() + " i " + " @ " + Time.time;
+        e.name = type.ToString() + " " + i  + " @ " + Time.time;
         EnemyStandardBehaviour es = e.GetComponent<EnemyStandardBehaviour>();
-        es.Initialize(UnityEngine.Random.Range(0, 360), 12, 1, type);
+
+        float a = UnityEngine.Random.Range(-45, 45);
+        if (UnityEngine.Random.Range(0, 2) == 1)
+        {
+            a += 180;
+        }
+
+        es.Initialize(a, 12, 1, type);
         enemyInScene.Add(es);
         //e.GetComponent<SpriteRenderer>().color = new Color(i / 5.0f, 0,0);
     }
@@ -109,9 +117,9 @@ public class EnemyManager : Singleton<EnemyManager>
     public IEnumerator PlayForUpdate(EnemyType type)
     {
         float time = timetoWaitToEnjoy;
-        float lastDistance = -1;
         while (true)
         {
+        float lastDistance = -1;
             for (int i = 0; i < enemyInScene.Count; i++)
             {
                 bool _do = true;
@@ -136,16 +144,26 @@ public class EnemyManager : Singleton<EnemyManager>
                         }
                         else
                         {
+                            //if (enemyInScene[i].type == type)
+                            //{
+                            //    Debug.Log("Not Close Enough");
+                            //}
                             _do = false;
                         }
                         break;
 
                 }
+                #region Debug
+                //if (enemyInScene[i].receivedEnjoy)
+                //    Debug.Log("Already received");
+                #endregion
                 if (enemyInScene[i].type == type && !enemyInScene[i].receivedEnjoy && _do)
                 {
                     enemyInScene[i].Enjoy(time);
                 }
                 time -= Time.deltaTime;
+                if (time < 0)
+                    time = 0;
             }
             yield return new WaitForEndOfFrame();
         }

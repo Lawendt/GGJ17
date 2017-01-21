@@ -50,105 +50,27 @@ public class EnemyManagerEditor : Editor
              element.FindPropertyRelative("time"), GUIContent.none
          );
 
-         // posX = rect.x;
-         // posY = rect.y + EditorGUIUtility.singleLineHeight + 5;
-         // width = 40;
 
-         // EditorGUI.LabelField(new Rect(posX, posY, width, height), "Type:");
-
-         // posX += width;
-         // width = 70;
-
-         // EditorGUI.PropertyField
-         // (
-         //     new Rect(posX, posY, width, height),
-         //     element.FindPropertyRelative("dataType"), GUIContent.none
-         // );
-
-         // posX += width;
-         // width = 45;
-
-         // EditorGUI.LabelField(new Rect(posX, posY, width, height), "Value:");
-
-         // posX += width;
-         // width = 50;
-
-         // EditorGUI.PropertyField
-         // (
-         //     new Rect(posX, posY, width, height),
-         //     element.FindPropertyRelative("valueOfEachdata"), GUIContent.none
-         // );
-
-         //     //--------------------------------------------------------------------------------------
-         //     //LEADER BOARD
-         //     //--------------------------------------------------------------------------------------
-
-         //     posY += EditorGUIUtility.singleLineHeight + 5;
-         // posX = rect.x;
-
-         // width = 80;
-
-         // EditorGUI.LabelField(new Rect(posX, posY, width, height), "LeaderBoard");
-
-         // posX += width;
-         // width = 15;
-
-         // EditorGUI.PropertyField
-         //(
-         //    new Rect(posX, posY, width, height),
-         //    element.FindPropertyRelative("haveLeaderboard"), GUIContent.none
-         //);
-
-         // posX += width + 20;
-         // width = 30;
-
-         // EditorGUI.LabelField(new Rect(posX, posY, width, height), "Tag:");
-
-         // posX += width;
-         // width = 60;
-
-         // EditorGUI.TagField(new Rect(posX, posY, width, height), element.FindPropertyRelative("leaderboardTag").stringValue);
-
-         //     //--------------------------------------------------------------------------------------
-         //     //Achievments and score
-         //     //--------------------------------------------------------------------------------------
-
-
-         //     posY += EditorGUIUtility.singleLineHeight + 5;
-         // posX = rect.x;
-         // width = 45;
-
-         // EditorGUI.LabelField(new Rect(posX, posY, width, height), "Rules:");
-
-         // posX += width;
-         // width = 60;
-
-         // EditorGUI.PropertyField
-         //(
-         //    new Rect(posX, posY, width, height),
-         //    element.FindPropertyRelative("achievementRules"), GUIContent.none
-         //);
-
-         // posX += width;
-         // width = 60;
-
-         // EditorGUI.PropertyField
-         //(
-         //    new Rect(posX, posY, width, height),
-         //    element.FindPropertyRelative("achievementRules"), GUIContent.none
-         //);
 
      };
     }
 
     public override void OnInspectorGUI()
     {
-        EditorGUILayout.HelpBox("First part is the style of the enemy. \nSecond is the time that it will span after the last enemy spwaned.", MessageType.Info);
+        EnemyManager.TypeGeneration typeGen = ((EnemyManager)target).typeGeneration;
+        if (typeGen == EnemyManager.TypeGeneration.readFromList)
+            EditorGUILayout.HelpBox("First part is the style of the enemy. \nSecond is the time that it will span after the last enemy spwaned.", MessageType.Info);
         serializedObject.Update();
-        list.DoLayoutList();
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("typeGeneration"), true);
+        if (typeGen == EnemyManager.TypeGeneration.readFromList)
+            list.DoLayoutList();
+        if (typeGen == EnemyManager.TypeGeneration.random)
+        {
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("minRandom"), true);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("maxRandom"), true);
+        }
         EditorGUILayout.PropertyField(serializedObject.FindProperty("enemyPrefab"), true);
         EditorGUILayout.PropertyField(serializedObject.FindProperty("distanceToBeAffected"), true);
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("typeGeneration"), true);
         EditorGUILayout.PropertyField(serializedObject.FindProperty("typeDetection"), true);
         EditorGUILayout.PropertyField(serializedObject.FindProperty("timetoWaitToEnjoy"), true);
 

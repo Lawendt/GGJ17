@@ -306,15 +306,15 @@ MonoBehaviour:
   enemy:
   - type: 0
     time: 0
-  - type: 3
+  - type: 0
     time: 2
-  - type: 1
+  - type: 0
     time: 2
   - type: 2
     time: 2
-  - type: 3
+  - type: 2
     time: 2
-  - type: 0
+  - type: 2
     time: 2
   - type: 2
     time: 2
@@ -327,6 +327,8 @@ MonoBehaviour:
   enemyInScene: []
   distanceToBeAffected: 5
   timetoWaitToEnjoy: 1
+  minRandom: 2
+  maxRandom: 3
 --- !u!1 &556661575
 GameObject:
   m_ObjectHideFlags: 0

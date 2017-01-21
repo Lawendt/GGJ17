@@ -84,14 +84,14 @@ public class EnemyStandardBehaviour : MonoBehaviour
                 break;
             case TypeOfDeath.Scale:
                 Vector3 v = transform.localScale;
-                
-                while (v.x > 0.1)
+
+                while (v.x > 0.15)
                 {
 
                     v.x -= velScaleDown * Time.deltaTime;
                     v.y -= velScaleDown * Time.deltaTime;
                     transform.localScale = v;
-                    Debug.Log(v);
+                    //Debug.Log(v);
                     yield return new WaitForEndOfFrame();
                 }
                 break;
@@ -103,8 +103,10 @@ public class EnemyStandardBehaviour : MonoBehaviour
     IEnumerator _waitToEnjoy(float timeToWait)
     {
         receivedEnjoy = true;
-        Debug.Log("Start Enjoy " + name);
-        yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timeToWait);
+        Debug.Log("Start Enjoy " + name + "\nTold to wait " + timeToWait);
+
+        if (timeToWait != 0)
+            yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timeToWait);
         animator.SetTrigger("Enjoy");
         walking = false;
         StartCoroutine("_scaleDown");
