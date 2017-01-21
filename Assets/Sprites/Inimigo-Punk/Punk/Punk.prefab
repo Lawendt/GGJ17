@@ -232,6 +232,7 @@ GameObject:
   - component: {fileID: 4717897956639570}
   - component: {fileID: 95968197312118738}
   - component: {fileID: 114236328374880038}
+  - component: {fileID: 114765031329835006}
   m_Layer: 0
   m_Name: Punk
   m_TagString: Untagged
@@ -3289,6 +3290,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a179c16de604057bc1902978187da5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114765031329835006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1727983256789566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e647390dc8e74e44288bbf2443c767f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  head:
+  - {fileID: 212087193096775000}
+  - {fileID: 212367272947162346}
 --- !u!114 &114794591505313380
 MonoBehaviour:
   m_ObjectHideFlags: 1

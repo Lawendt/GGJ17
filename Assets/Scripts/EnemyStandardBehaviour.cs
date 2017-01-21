@@ -15,9 +15,11 @@ public class EnemyStandardBehaviour : MonoBehaviour
     public EnemyType type;
     public float velScaleDown, timeToThrow = 2.0f;
     public List<GameObject> prefabType;
+    public SpriteRenderer[] heads;
+    public ParticleSystem star, interrogation;
     #endregion
     #region Walk Parameters
-    Vector2 center;
+    public Vector2 center;
     public float angle, length, velocity;
     Vector2 position;
     // When Hating
@@ -32,7 +34,9 @@ public class EnemyStandardBehaviour : MonoBehaviour
     private float startLenght;
     Animator animator;
     float startVelocity;
-    
+
+ 
+
     #endregion
     // Use this for initialization
 
@@ -62,6 +66,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
         {
             GameObject g = GameObject.Instantiate<GameObject>(prefabType[i], transform, false);
             animator = g.GetComponent<Animator>();
+            heads = g.GetComponent<HeadHolder>().head;
         }
     }
 
@@ -86,8 +91,20 @@ public class EnemyStandardBehaviour : MonoBehaviour
         }
     }
 
+    void Die()
+    {
+        EnemyManager.Instance.removeEnemy(this);
+        Destroy(gameObject);
+    }
+    public float distanceFromObjective()
+    {
+        return Vector2.Distance(transform.position, center);
+    }
+
+    #region Enjoying
     IEnumerator _scaleDown()
     {
+        star.Play();
         switch (typeOfDeath)
         {
             case TypeOfDeath.fadeAlpha:
@@ -118,20 +135,10 @@ public class EnemyStandardBehaviour : MonoBehaviour
                 }
                 break;
         }
+        star.Stop();
 
         Die();
     }
-    void Die()
-    {
-        EnemyManager.Instance.removeEnemy(this);
-        Destroy(gameObject);
-    }
-    public float distanceFromObjective()
-    {
-        return Vector2.Distance(transform.position, center);
-    }
-
-    #region Enjoying
     IEnumerator _waitToEnjoy(float timeToWait)
     {
         receivedEnjoy = true;
@@ -150,6 +157,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
         Debug.Log("Stop Enjoy " + name);
 
         yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timeToWait);
+        star.Stop();
         if (!walking)
         {
             StopCoroutine("_scaleDown");
@@ -172,7 +180,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
 
 
     #region Hate
-    Coroutine hateCoroutine;
+    Coroutine hateCoroutine = null;
     IEnumerator _Hating(float timeToWait)
     {
         hating = true;
@@ -181,16 +189,21 @@ public class EnemyStandardBehaviour : MonoBehaviour
         if (timeToWait != 0)
             yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timeToWait);
 
+        for (int i = 0; i < heads.Length; i++)
+        {
+            heads[i].color = Color.red;
+        }
+
         float timerHate = 0;
         while (hating)
         {
             timerHate += Time.deltaTime;
             velocity += acceleration * Time.deltaTime;
-            if(velocity > maxVelocity)
+            if (velocity > maxVelocity)
             {
                 velocity = maxVelocity;
             }
-            if(timerHate > timeToThrow)
+            if (timerHate > timeToThrow)
             {
                 timerHate = 0;
                 ThrowObject();
@@ -205,8 +218,17 @@ public class EnemyStandardBehaviour : MonoBehaviour
 
     public void StopHating(float timeToWait)
     {
-        hating = false;
-        StopCoroutine(hateCoroutine);
+        if (hating)
+        {
+            for (int i = 0; i < heads.Length; i++)
+            {
+                heads[i].color = Color.white;
+            }
+            hating = false;
+            if (hateCoroutine != null)
+                StopCoroutine(hateCoroutine);
+
+        }
     }
 
     public void ThrowObject()
@@ -216,9 +238,15 @@ public class EnemyStandardBehaviour : MonoBehaviour
 
     #endregion
 
-
+    #region Confuse
     public void Confuse(float timeToWait)
     {
-
+        interrogation.Play();
     }
+
+    public void EndConfuse()
+    {
+        interrogation.Stop();
+    }
+    #endregion
 }

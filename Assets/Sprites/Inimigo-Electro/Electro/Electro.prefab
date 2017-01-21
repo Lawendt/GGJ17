@@ -307,6 +307,7 @@ GameObject:
   - component: {fileID: 4042145194877186}
   - component: {fileID: 95768899855167482}
   - component: {fileID: 114163348780125002}
+  - component: {fileID: 114737430800127404}
   m_Layer: 0
   m_Name: Electro
   m_TagString: Untagged
@@ -1428,6 +1429,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a179c16de604057bc1902978187da5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114737430800127404
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1879418295736846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e647390dc8e74e44288bbf2443c767f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  head:
+  - {fileID: 212341539393790180}
+  - {fileID: 212787896599144262}
 --- !u!212 &212003441958772596
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -164,6 +164,7 @@ GameObject:
   - component: {fileID: 4969417654306540}
   - component: {fileID: 95570711567070516}
   - component: {fileID: 114571913953647810}
+  - component: {fileID: 114876058332287700}
   m_Layer: 0
   m_Name: Reggae
   m_TagString: Untagged
@@ -2313,6 +2314,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4a179c16de604057bc1902978187da5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114876058332287700
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1787325534879444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e647390dc8e74e44288bbf2443c767f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  head:
+  - {fileID: 212023730765773124}
+  - {fileID: 212304457971122310}
 --- !u!114 &114928280383579522
 MonoBehaviour:
   m_ObjectHideFlags: 1

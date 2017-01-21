@@ -70,6 +70,8 @@ public class EnemyManagerEditor : Editor
             EditorGUILayout.PropertyField(serializedObject.FindProperty("maxRandom"), true);
         }
         EditorGUILayout.PropertyField(serializedObject.FindProperty("enemyPrefab"), true);
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("player"), true);
+
         EditorGUILayout.PropertyField(serializedObject.FindProperty("distanceToBeAffected"), true);
         EditorGUILayout.PropertyField(serializedObject.FindProperty("typeDetection"), true);
         EditorGUILayout.PropertyField(serializedObject.FindProperty("timetoWaitToEnjoy"), true);

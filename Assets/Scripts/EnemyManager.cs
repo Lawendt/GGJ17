@@ -34,6 +34,8 @@ public class EnemyManager : Singleton<EnemyManager>
         everyoneDances
     }
 
+    public GameObject player;
+
     public TypeGeneration typeGeneration;
     public TypeDetection typeDetection;
 
@@ -47,6 +49,7 @@ public class EnemyManager : Singleton<EnemyManager>
     public float timetoWaitToEnjoy = 1f;
 
     public float minRandom, maxRandom;
+
 
 
     // Use this for initialization
@@ -97,7 +100,7 @@ public class EnemyManager : Singleton<EnemyManager>
         GameObject e = Instantiate(enemyPrefab);
         e.name = type.ToString() + " " + i + " @ " + Time.time;
         EnemyStandardBehaviour es = e.GetComponent<EnemyStandardBehaviour>();
-
+        es.center = player.transform.position;
         float a = UnityEngine.Random.Range(-40, 40);
         if (UnityEngine.Random.Range(0, 2) == 1)
         {
@@ -160,7 +163,7 @@ public class EnemyManager : Singleton<EnemyManager>
                     }
                     else if (IsHating(enemyInScene[i].type, type) && !enemyInScene[i].hating)
                     {
-                        //enemyInScene[i].Hate(time);
+                        enemyInScene[i].Hate(time);
                     }
                     else
                     {
@@ -202,11 +205,14 @@ public class EnemyManager : Singleton<EnemyManager>
 
     public void StopPlaying(EnemyType type)
     {
+        
         StopCoroutine(coroutine);
         for (int i = 0; i < enemyInScene.Count; i++)
         {
             if (enemyInScene[i].type == type)
             {
+                enemyInScene[i].EndConfuse();
+                enemyInScene[i].StopHating(timetoWaitToEnjoy);
                 enemyInScene[i].StopEnjoying(timetoWaitToEnjoy);
             }
         }
