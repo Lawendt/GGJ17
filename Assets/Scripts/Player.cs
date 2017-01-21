@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
         //Animação
         //Instanciar nova onda
         Debug.Log("Test");
-        wavePlane.material.SetVector("_SonarWaveVector", new Vector4(0, 3, 0, 0));
+        wavePlane.material.SetVector("_SonarWaveColor", new Color(0.1f, 1, 0.1f, 0));
         // Matar inimigos
     }
     public void PlayClassic()
@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
         //Audio
         //Animação
         //Instanciar nova onda
-        wavePlane.material.SetVector("_SonarWaveVector", new Vector4(0, -3, 0, 0));
+        wavePlane.material.SetVector("_SonarWaveColor", new Color(1, 0.1f, 0.1f, 0));
         // Matar inimigos
 
     }
@@ -105,8 +105,7 @@ public class Player : MonoBehaviour
         //Audio
         //Animação
         //Instanciar nova onda
-        wavePlane.material.SetVector("_SonarWaveVector", new Vector4(3, 0, 0, 0));
-        // Matar inimigos
+        wavePlane.material.SetVector("_SonarWaveColor", new Color(1.0f, 1.0f, 0.1f, 0));
         // Matar inimigos
     }
     public void PlayEletronic()
@@ -115,14 +114,15 @@ public class Player : MonoBehaviour
         //Audio
         //Animação
         //Instanciar nova onda
-        wavePlane.material.SetVector("_SonarWaveVector", new Vector4(-3, 0, 0, 0));
+        wavePlane.material.SetVector("_SonarWaveColor", new Color(0.1f, 0.1f, 1.0f, 0));
         // Matar inimigos
         // Matar inimigos
     }
 
     void StopPlaying(EnemyType type)
     {
-        if(currentEnemy == type)
+        wavePlane.material.SetVector("_SonarWaveColor", new Color(1.0f, 1.0f, 1.0f, 0));
+        if (currentEnemy == type)
         {
         enemyManager.StopPlaying(type);
             currentEnemy = EnemyType.None;
