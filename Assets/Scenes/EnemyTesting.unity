@@ -264,19 +264,19 @@ MonoBehaviour:
   enemy:
   - type: 0
     time: 0
-  - type: 0
+  - type: 3
     time: 2
-  - type: 0
+  - type: 3
     time: 2
-  - type: 0
+  - type: 2
     time: 2
-  - type: 0
+  - type: 3
     time: 2
-  - type: 0
+  - type: 3
     time: 2
-  - type: 0
+  - type: 3
     time: 2
-  - type: 0
+  - type: 3
     time: 2
   - type: 0
     time: 2
