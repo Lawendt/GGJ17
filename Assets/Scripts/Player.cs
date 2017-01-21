@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
 
     private EnemyManager enemyManager;
     public EnemyType currentEnemy;
-    public Text debugCurrentEnemy;
+   // public Text debugCurrentEnemy;
     void Start()
     {
         life = (float)maxLife;
@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     public List<EnemyType> queueInteraction;
     void Update()
     {
-        debugCurrentEnemy.text = currentEnemy.ToString();
+       // debugCurrentEnemy.text = currentEnemy.ToString();
         fill.fillAmount = life / (float)maxLife;
         percentage.text = life.ToString("F1") + "%";
         if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -170,5 +170,11 @@ public class Player : MonoBehaviour
     {
         currentEnemy = EnemyType.None;
         //Desativar onda
+    }
+
+    public void OnTriggerEnter2D(Collider2D collider)
+    {
+        Debug.Log(collider.name);
+        collider.GetComponent<EnemyStandardBehaviour>().Die();
     }
 }

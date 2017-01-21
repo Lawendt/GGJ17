@@ -205,14 +205,14 @@ public class EnemyManager : Singleton<EnemyManager>
 
     public void StopPlaying(EnemyType type)
     {
-        
+
         StopCoroutine(coroutine);
         for (int i = 0; i < enemyInScene.Count; i++)
         {
+            enemyInScene[i].EndConfuse();
+            enemyInScene[i].StopHating();
             if (enemyInScene[i].type == type)
             {
-                enemyInScene[i].EndConfuse();
-                enemyInScene[i].StopHating(timetoWaitToEnjoy);
                 enemyInScene[i].StopEnjoying(timetoWaitToEnjoy);
             }
         }
@@ -222,4 +222,6 @@ public class EnemyManager : Singleton<EnemyManager>
     {
         enemyInScene.Remove(e);
     }
+
+   
 }

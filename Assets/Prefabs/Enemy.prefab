@@ -20,6 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4033730375188092}
   - component: {fileID: 114561641491654002}
+  - component: {fileID: 61264572667417002}
+  - component: {fileID: 50936949000592902}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -60,7 +62,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4033730375188092
 Transform:
   m_ObjectHideFlags: 1
@@ -102,6 +104,40 @@ Transform:
   m_Father: {fileID: 4033730375188092}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50936949000592902
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1124293991404006}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!61 &61264572667417002
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1124293991404006}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0.118878365}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.2377567}
 --- !u!114 &114561641491654002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -113,6 +149,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5bb95515e73dc4eb4f863e7677bd6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: -0.004166667
+      value: 0.9937499
+      inSlope: 0.39999995
+      outSlope: 0.39999995
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.5414987
+      value: 0.6559423
+      inSlope: -1.6815997
+      outSlope: -1.6815997
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: -0.012499953
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
   typeOfDeath: 1
   type: 0
   velScaleDown: 1
@@ -189,7 +249,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1200997479
+  randomSeed: -1733937001
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -2787,7 +2847,7 @@ ParticleSystem:
       m_PostInfinity: 2
       m_RotationOrder: 4
     minMaxState: 0
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 1975264297

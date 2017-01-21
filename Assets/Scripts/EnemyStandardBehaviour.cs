@@ -11,6 +11,8 @@ public class EnemyStandardBehaviour : MonoBehaviour
         Scale
     }
     #region SetUp
+    
+    public AnimationCurve deathCurve;
     public TypeOfDeath typeOfDeath;
     public EnemyType type;
     public float velScaleDown, timeToThrow = 2.0f;
@@ -35,7 +37,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
     Animator animator;
     float startVelocity;
 
- 
+
 
     #endregion
     // Use this for initialization
@@ -91,7 +93,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
         }
     }
 
-    void Die()
+    public void Die()
     {
         EnemyManager.Instance.removeEnemy(this);
         Destroy(gameObject);
@@ -105,6 +107,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
     IEnumerator _scaleDown()
     {
         star.Play();
+        float t = 0;
         switch (typeOfDeath)
         {
             case TypeOfDeath.fadeAlpha:
@@ -113,6 +116,8 @@ public class EnemyStandardBehaviour : MonoBehaviour
                 if (render.Length == 0)
                     yield return null;
                 c.a = render[0].color.a;
+                float maxA = c.a;
+                float minA = 0;
                 while (c.a > 0)
                 {
                     c.a -= velScaleDown * Time.deltaTime;
@@ -123,14 +128,14 @@ public class EnemyStandardBehaviour : MonoBehaviour
                 break;
             case TypeOfDeath.Scale:
                 Vector3 v = transform.localScale;
-
+                Vector2 start = v;
                 while (v.x > 0.15)
                 {
 
-                    v.x -= velScaleDown * Time.deltaTime;
-                    v.y -= velScaleDown * Time.deltaTime;
+                    v.x = (deathCurve.Evaluate(t)) * start.x;
+                    v.y = (deathCurve.Evaluate(t)) * start.y;
                     transform.localScale = v;
-                    //Debug.Log(v);
+                    t += velScaleDown * Time.deltaTime;
                     yield return new WaitForEndOfFrame();
                 }
                 break;
@@ -216,7 +221,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
         hateCoroutine = StartCoroutine(_Hating(timeToWait));
     }
 
-    public void StopHating(float timeToWait)
+    public void StopHating()
     {
         if (hating)
         {
@@ -241,7 +246,8 @@ public class EnemyStandardBehaviour : MonoBehaviour
     #region Confuse
     public void Confuse(float timeToWait)
     {
-        interrogation.Play();
+        if (!interrogation.isPlaying)
+            interrogation.Play();
     }
 
     public void EndConfuse()
@@ -249,4 +255,10 @@ public class EnemyStandardBehaviour : MonoBehaviour
         interrogation.Stop();
     }
     #endregion
+
+    public void OnTriggerEnter2D(Collider2D collider)
+    {
+        Debug.Log("MyName " + this.name + "  Collider Name " + collider.name);
+        
+    }
 }
