@@ -259,6 +259,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
   _destroyExistentObject: 0
+  typeGeneration: 0
+  typeDetection: 0
   enemy:
   - type: 0
     time: 0
@@ -280,6 +282,7 @@ MonoBehaviour:
     time: 1.5
   enemyPrefab: {fileID: 1124293991404006, guid: d14572e5b3f5a314f895d657f6a01366,
     type: 2}
+  wavePlane: {fileID: 1702848737}
   enemyInScene: []
   distanceToBeAffected: 5
 --- !u!1 &556661575
@@ -810,6 +813,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameplayUI: {fileID: 958322808}
+  wavePlane: {fileID: 1702848737}
   life: 1
   maxLife: 100
   currentEnemy: 0
@@ -1081,7 +1085,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 34443b7b25d056143b4c5b352b0a5384, type: 2}
+  - {fileID: 2100000, guid: 6fb124199f20fb04db7d94c9db952bd5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

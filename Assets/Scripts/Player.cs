@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     //[System.NonSerialized]
     //public Animator animator;
     public GameObject gameplayUI;
+    public Renderer wavePlane;
     [Range(0f, 100f)]
     public float life = 100f;
     public int maxLife = 100;
@@ -82,17 +83,18 @@ public class Player : MonoBehaviour
         //Audio
         //Animação
         //Instanciar nova onda
-
+        Debug.Log("Test");
+        wavePlane.material.SetVector("_SonarWaveVector", new Vector4(0, 3, 0, 0));
         // Matar inimigos
     }
     public void PlayClassic()
     {
-        
+
         //Desativar onda
         //Audio
         //Animação
         //Instanciar nova onda
-
+        wavePlane.material.SetVector("_SonarWaveVector", new Vector4(0, -3, 0, 0));
         // Matar inimigos
 
     }
@@ -103,7 +105,8 @@ public class Player : MonoBehaviour
         //Audio
         //Animação
         //Instanciar nova onda
-
+        wavePlane.material.SetVector("_SonarWaveVector", new Vector4(3, 0, 0, 0));
+        // Matar inimigos
         // Matar inimigos
     }
     public void PlayEletronic()
@@ -112,7 +115,8 @@ public class Player : MonoBehaviour
         //Audio
         //Animação
         //Instanciar nova onda
-
+        wavePlane.material.SetVector("_SonarWaveVector", new Vector4(-3, 0, 0, 0));
+        // Matar inimigos
         // Matar inimigos
     }
 

@@ -157,7 +157,7 @@ Material:
       second: {r: 1, g: 1, b: 1, a: 0}
     - first:
         name: _SonarWaveColor
-      second: {r: 1, g: 1, b: 1, a: 0}
+      second: {r: 0.6911765, g: 1, b: 0.9744422, a: 0}
     - first:
         name: _SonarWaveParams
       second: {r: 1, g: 6, b: 6, a: 10}
