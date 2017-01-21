@@ -6,10 +6,10 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: WaveSurface
-  m_Shader: {fileID: 4800000, guid: 86cb53f0a5afc1445bb7bd647fab1e50, type: 3}
-  m_ShaderKeywords: _EMISSION
-  m_LightmapFlags: 1
+  m_Name: WaveVertex
+  m_Shader: {fileID: 4800000, guid: 836c9e9b83f9d8e45938254859627cf2, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
   m_CustomRenderQueue: -1
   stringTagMap: {}
   m_SavedProperties:
@@ -77,6 +77,9 @@ Material:
         name: _Cutoff
       second: 0.5
     - first:
+        name: _DesiredTime
+      second: 36.9
+    - first:
         name: _DetailNormalMapScale
       second: 1
     - first:
@@ -93,7 +96,7 @@ Material:
       second: 1
     - first:
         name: _MaxDistance
-      second: 100
+      second: 10
     - first:
         name: _Metallic
       second: 0
@@ -119,51 +122,27 @@ Material:
         name: _UVSec
       second: 0
     - first:
-        name: _WaveAmplitude
-      second: 1.55
-    - first:
         name: _WaveFrquency
-      second: 7.5
-    - first:
-        name: _WaveLength
-      second: 1.51
+      second: 50
     - first:
         name: _WaveMagnitude
-      second: 2
-    - first:
-        name: _WaveReach
-      second: 8.96
+      second: 0.8
     - first:
         name: _WaveSpeed
-      second: 1.56
+      second: 1
     - first:
         name: _ZWrite
       second: 1
     m_Colors:
     - first:
         name: _BaseColor
-      second: {r: 1, g: 1, b: 1, a: 0.666}
+      second: {r: 0, g: 0, b: 0, a: 0}
     - first:
         name: _Color
-      second: {r: 1, g: 1, b: 1, a: 1}
+      second: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
     - first:
-        name: _SonarAddColor
-      second: {r: 0, g: 0, b: 0, a: 0}
-    - first:
-        name: _SonarBaseColor
-      second: {r: 1, g: 1, b: 1, a: 0}
-    - first:
-        name: _SonarWaveColor
-      second: {r: 1, g: 1, b: 1, a: 0}
-    - first:
-        name: _SonarWaveParams
-      second: {r: 1, g: 6, b: 6, a: 10}
-    - first:
-        name: _SonarWaveVector
-      second: {r: 0, g: 0, b: 0, a: 0}
-    - first:
         name: _TopColor
-      second: {r: 0.8088235, g: 0.33074814, b: 0.0713668, a: 0.191}
+      second: {r: 0, g: 0.46323532, b: 0.079868175, a: 0.228}
