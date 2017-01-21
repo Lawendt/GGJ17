@@ -9,7 +9,8 @@ public enum EnemyType
     Classic,
     Punk,
     Reggae,
-    Eletronic
+    Eletronic,
+    None
 }
 
 [Serializable]
@@ -19,12 +20,31 @@ public class EnemyInstance
     public float time;
 }
 
-public class EnemyManager : MonoBehaviour
+public class EnemyManager : Singleton<EnemyManager>
 {
-    public
+    public enum TypeGeneration
+    {
+        readFromList,
+        random
+    }
+    public enum TypeDetection
+    {
+        justFirst,
+        distanceReach,
+        everyoneDances
+    }
+
+    public TypeGeneration typeGeneration;
+    public TypeDetection typeDetection;
+
     float timeStart;
     public List<EnemyInstance> enemy;
     public GameObject enemyPrefab;
+    public List<EnemyStandardBehaviour> enemyInScene;
+
+    public float distanceToBeAffected;
+
+
 
     // Use this for initialization
     void Start()
@@ -41,28 +61,109 @@ public class EnemyManager : MonoBehaviour
     IEnumerator run()
     {
         int i = 0;
-        while (i < enemy.Count)
+        switch (typeGeneration)
         {
-            if (enemy[i].time != 0)
-            {
-                yield return new WaitForSeconds(enemy[i].time);
-            }
-            InstanceEnemy(enemy[i].type, i );
-            i++;
-        }
-    }
+            case TypeGeneration.readFromList:
+                while (i < enemy.Count)
+                {
+                    if (enemy[i].time != 0)
+                    {
+                        yield return new WaitForSeconds(enemy[i].time);
+                    }
+                    InstanceEnemy(enemy[i].type, i);
+                    i++;
+                }
+                break;
+            case TypeGeneration.random:
+                while (true)
+                {
+                    float time = UnityEngine.Random.Range(0, 500) / 100;
+                    yield return new WaitForSeconds(time);
+                    InstanceEnemy((EnemyType)UnityEngine.Random.Range(0, 4), i);
+                    i++;
 
+                }
+                break;
+
+        }
+
+    }
 
     public void InstanceEnemy(EnemyType type, int i)
     {
         GameObject e = Instantiate(enemyPrefab);
         e.name = "Enemy " + " i " + " @ " + Time.time;
-        e.GetComponent<EnemyStandardBehaviour>().Initialize(UnityEngine.Random.Range(0, 360), 12, 1);
+        EnemyStandardBehaviour es = e.GetComponent<EnemyStandardBehaviour>();
+        es.Initialize(UnityEngine.Random.Range(0, 360), 12, 1);
+        es.setType(type);
+        enemyInScene.Add(es);
         //e.GetComponent<SpriteRenderer>().color = new Color(i / 5.0f, 0,0);
     }
-    // Update is called once per frame
-    void Update()
-    {
 
+    public void PlayFor(EnemyType type)
+    {
+        StartCoroutine(PlayForUpdate(type));
+    }
+
+    public IEnumerator PlayForUpdate(EnemyType type)
+    {
+        float lastDistance = -1;
+        while (true)
+        {
+
+            for (int i = 0; i < enemyInScene.Count; i++)
+            {
+                bool _do = true;
+                switch (typeDetection)
+                {
+                    case TypeDetection.distanceReach:
+                        _do &= enemyInScene[i].distanceFromObjective() <= distanceToBeAffected;
+                        break;
+                    case TypeDetection.everyoneDances:
+                        _do &= true;
+                        break;
+                    case TypeDetection.justFirst:
+                        if (lastDistance == -1)
+                        {
+                            _do = true;
+                            lastDistance = enemyInScene[i].distanceFromObjective();
+                        }
+                        else if (lastDistance <= enemyInScene[i].distanceFromObjective())
+                        {
+                            lastDistance = enemyInScene[i].distanceFromObjective();
+                            _do = true;
+                        }
+                        else
+                        {
+                            _do = false;
+                        }
+                        break;
+
+                }
+                if (enemyInScene[i].type == type && enemyInScene[i].walking && _do)
+                {
+                    enemyInScene[i].Enjoy();
+                }
+
+            }
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    public void StopPlaying(EnemyType type)
+    {
+        StopAllCoroutines();
+        for (int i = 0; i < enemyInScene.Count; i++)
+        {
+            if (enemyInScene[i].type == type)
+            {
+                enemyInScene[i].StopEnjoying();
+            }
+        }
+    }
+
+    public void removeEnemy(EnemyStandardBehaviour e)
+    {
+        enemyInScene.Remove(e);
     }
 }
