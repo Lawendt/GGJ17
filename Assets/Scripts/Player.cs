@@ -36,40 +36,40 @@ public class Player : MonoBehaviour
         percentage.text = life.ToString("F1") + "%";
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            queueInteraction.Add(EnemyType.Punk);
-            StartPlaying(EnemyType.Punk); //Tocando Punk
+            queueInteraction.Add(EnemyType.Classic);
+            StartPlaying(EnemyType.Classic); //Tocando Punk
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            queueInteraction.Add(EnemyType.Classic);
-            StartPlaying(EnemyType.Classic); //Tocando Clássico
+            queueInteraction.Add(EnemyType.Eletronic);
+            StartPlaying(EnemyType.Eletronic); //Tocando Clássico
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            queueInteraction.Add(EnemyType.Reggae);
-            StartPlaying(EnemyType.Reggae); //Tocando Reggae
+            queueInteraction.Add(EnemyType.Punk);
+            StartPlaying(EnemyType.Punk); //Tocando Reggae
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            queueInteraction.Add(EnemyType.Eletronic);
-            StartPlaying(EnemyType.Eletronic); //Tocando Eletrônica
+            queueInteraction.Add(EnemyType.Reggae);
+            StartPlaying(EnemyType.Reggae); //Tocando Eletrônica
         }
 
         if (Input.GetKeyUp(KeyCode.UpArrow))
         {
-            KeyUp(EnemyType.Punk);
+            KeyUp(EnemyType.Classic);
         }
         if (Input.GetKeyUp(KeyCode.DownArrow))
         {
-            KeyUp(EnemyType.Classic);
+            KeyUp(EnemyType.Eletronic);
         }
         if (Input.GetKeyUp(KeyCode.RightArrow))
         {
-            KeyUp(EnemyType.Reggae);
+            KeyUp(EnemyType.Punk);
         }
         if (Input.GetKeyUp(KeyCode.LeftArrow))
         {
-            KeyUp(EnemyType.Eletronic);
+            KeyUp(EnemyType.Reggae);
 
         }
 
