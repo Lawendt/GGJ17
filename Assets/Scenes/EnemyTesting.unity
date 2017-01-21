@@ -264,26 +264,27 @@ MonoBehaviour:
   enemy:
   - type: 0
     time: 0
-  - type: 1
-    time: 0.5
-  - type: 1
-    time: 1
-  - type: 1
-    time: 0.5
   - type: 0
-    time: 0
+    time: 2
   - type: 0
-    time: 1
+    time: 2
   - type: 0
-    time: 0
+    time: 2
   - type: 0
-    time: 1
+    time: 2
   - type: 0
-    time: 1.5
+    time: 2
+  - type: 0
+    time: 2
+  - type: 0
+    time: 2
+  - type: 0
+    time: 2
   enemyPrefab: {fileID: 1124293991404006, guid: d14572e5b3f5a314f895d657f6a01366,
     type: 2}
   enemyInScene: []
   distanceToBeAffected: 5
+  timetoWaitToEnjoy: 1
 --- !u!1 &556661575
 GameObject:
   m_ObjectHideFlags: 0

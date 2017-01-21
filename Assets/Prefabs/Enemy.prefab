@@ -51,13 +51,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5bb95515e73dc4eb4f863e7677bd6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timetoWaitToEnjoy: 1
+  typeOfDeath: 1
   walking: 0
   angle: 0
   length: 0
   velocity: 0
   type: 0
   velScaleDown: 0.5
+  receivedEnjoy: 0
   prefabType:
   - {fileID: 1765978043167792, guid: ce78e2b127b878b45a837346f6d9827b, type: 2}
   - {fileID: 1727983256789566, guid: ccbe97525be538c47a03ebe89915af85, type: 2}
