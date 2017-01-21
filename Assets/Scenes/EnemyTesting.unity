@@ -282,7 +282,6 @@ MonoBehaviour:
     time: 1.5
   enemyPrefab: {fileID: 1124293991404006, guid: d14572e5b3f5a314f895d657f6a01366,
     type: 2}
-  wavePlane: {fileID: 1702848737}
   enemyInScene: []
   distanceToBeAffected: 5
 --- !u!1 &556661575
@@ -362,7 +361,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 556661575}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 5.38}
+  m_LocalPosition: {x: 0, y: 0, z: 5.7}
   m_LocalScale: {x: 3.5876255, y: 1.793813, z: 3.587626}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1118,7 +1117,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1702848736}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 4.81}
+  m_LocalPosition: {x: 0, y: 0, z: 5.32}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}

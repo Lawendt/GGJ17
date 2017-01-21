@@ -53,7 +53,7 @@
 
 
 			// Apply to the surface.
-			o.Albedo = float3(0,0,0);
+			o.Albedo = _SonarBaseColor;
 			o.Alpha = alfa;
 			o.Emission = _SonarWaveColor * w + _SonarAddColor;
 		}

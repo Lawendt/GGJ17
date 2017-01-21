@@ -10,7 +10,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 86cb53f0a5afc1445bb7bd647fab1e50, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -157,7 +157,7 @@ Material:
       second: {r: 1, g: 1, b: 1, a: 0}
     - first:
         name: _SonarWaveColor
-      second: {r: 0.6911765, g: 1, b: 0.9744422, a: 0}
+      second: {r: 1, g: 1, b: 1, a: 0}
     - first:
         name: _SonarWaveParams
       second: {r: 1, g: 6, b: 6, a: 10}
