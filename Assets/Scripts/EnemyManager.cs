@@ -26,6 +26,7 @@ public class EnemyManager : MonoBehaviour
     public List<EnemyInstance> enemy;
     public GameObject enemyPrefab;
 
+
     // Use this for initialization
     void Start()
     {
@@ -52,7 +53,6 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-
     public void InstanceEnemy(EnemyType type, int i)
     {
         GameObject e = Instantiate(enemyPrefab);
@@ -61,8 +61,15 @@ public class EnemyManager : MonoBehaviour
         e.GetComponent<EnemyStandardBehaviour>().setType(type);
         //e.GetComponent<SpriteRenderer>().color = new Color(i / 5.0f, 0,0);
     }
-    // Update is called once per frame
-    void Update()
+
+
+    
+    public void PlayFor(EnemyType type)
+    {
+
+    }
+
+    public void StopPlaying(EnemyType type)
     {
 
     }
