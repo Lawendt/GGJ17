@@ -96,6 +96,7 @@ public class EnemyManager : Singleton<EnemyManager>
 
     }
 
+   
     public void InstanceEnemy(EnemyType type, int i)
     {
         GameObject e = Instantiate(enemyPrefab);
@@ -168,7 +169,7 @@ public class EnemyManager : Singleton<EnemyManager>
                     }
                     else
                     {
-                        enemyInScene[i].Confuse(time);
+                        enemyInScene[i].Confuse();
                     }
 
                 }
@@ -206,7 +207,6 @@ public class EnemyManager : Singleton<EnemyManager>
 
     public void StopPlaying(EnemyType type)
     {
-
         StopCoroutine(coroutine);
         for (int i = 0; i < enemyInScene.Count; i++)
         {
@@ -222,6 +222,7 @@ public class EnemyManager : Singleton<EnemyManager>
     public void removeEnemy(EnemyStandardBehaviour e)
     {
         enemyInScene.Remove(e);
+        enemyInScene[0].SetHighlight(true);
     }
 
    

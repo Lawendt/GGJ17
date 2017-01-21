@@ -16,6 +16,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
     public TypeOfDeath typeOfDeath;
     public EnemyType type;
     public float velScaleDown, timeToThrow = 2.0f;
+    public GameObject highlight;
     public List<GameObject> prefabType;
     public SpriteRenderer[] heads;
     public ParticleSystem star, interrogation;
@@ -42,6 +43,10 @@ public class EnemyStandardBehaviour : MonoBehaviour
     #endregion
     // Use this for initialization
 
+    public void SetHighlight(bool b)
+    {
+        highlight.SetActive(true);
+    }
     virtual protected void Start()
     {
         position = new Vector2();
@@ -106,7 +111,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
     #region Enjoying
     IEnumerator _scaleDown()
     {
-        star.Play();
+
         float t = 0;
         switch (typeOfDeath)
         {
@@ -140,7 +145,6 @@ public class EnemyStandardBehaviour : MonoBehaviour
                 }
                 break;
         }
-        star.Stop();
 
         Die();
     }
@@ -148,9 +152,10 @@ public class EnemyStandardBehaviour : MonoBehaviour
     {
         receivedEnjoy = true;
         Debug.Log("Start Enjoy " + name + "\nTold to wait " + timeToWait);
-
         if (timeToWait != 0)
             yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timeToWait);
+        star.Play();
+        
         animator.SetTrigger("Enjoy");
         walking = false;
         StartCoroutine("_scaleDown");
@@ -182,7 +187,6 @@ public class EnemyStandardBehaviour : MonoBehaviour
         StartCoroutine(_waitToStopEnjoying(timeToWait));
     }
     #endregion
-
 
     #region Hate
     Coroutine hateCoroutine = null;
@@ -244,7 +248,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
     #endregion
 
     #region Confuse
-    public void Confuse(float timeToWait)
+    public void Confuse()
     {
         if (!interrogation.isPlaying)
             interrogation.Play();
@@ -256,9 +260,5 @@ public class EnemyStandardBehaviour : MonoBehaviour
     }
     #endregion
 
-    public void OnTriggerEnter2D(Collider2D collider)
-    {
-        Debug.Log("MyName " + this.name + "  Collider Name " + collider.name);
-        
-    }
+ 
 }

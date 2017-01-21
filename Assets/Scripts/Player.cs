@@ -14,10 +14,11 @@ public class Player : MonoBehaviour
     public int maxLife = 100;
     Image fill;
     Text percentage;
+    public GameObject[] instruments;
 
     private EnemyManager enemyManager;
     public EnemyType currentEnemy;
-   // public Text debugCurrentEnemy;
+    // public Text debugCurrentEnemy;
     void Start()
     {
         life = (float)maxLife;
@@ -26,33 +27,38 @@ public class Player : MonoBehaviour
         //Animator = GetComponent<Animator>();
         fill = gameplayUI.transform.GetChild(0).GetChild(0).GetComponent<Image>();
         percentage = gameplayUI.transform.GetChild(0).GetChild(1).GetComponent<Text>();
+
+        for (int i = 0; i < 4; i++)
+        {
+            instruments[i].SetActive(false);
+        }
     }
 
     public List<EnemyType> queueInteraction;
     void Update()
     {
-       // debugCurrentEnemy.text = currentEnemy.ToString();
+        // debugCurrentEnemy.text = currentEnemy.ToString();
         fill.fillAmount = life / (float)maxLife;
         percentage.text = life.ToString("F1") + "%";
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             queueInteraction.Add(EnemyType.Classic);
-            StartPlaying(EnemyType.Classic); //Tocando Punk
+            StartPlaying(EnemyType.Classic); //Tocando Clássico
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             queueInteraction.Add(EnemyType.Eletronic);
-            StartPlaying(EnemyType.Eletronic); //Tocando Clássico
+            StartPlaying(EnemyType.Eletronic); //Tocando Eletronica
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             queueInteraction.Add(EnemyType.Punk);
-            StartPlaying(EnemyType.Punk); //Tocando Reggae
+            StartPlaying(EnemyType.Punk); //Tocando Punk
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             queueInteraction.Add(EnemyType.Reggae);
-            StartPlaying(EnemyType.Reggae); //Tocando Eletrônica
+            StartPlaying(EnemyType.Reggae); //Tocando Reggae
         }
 
         if (Input.GetKeyUp(KeyCode.UpArrow))
@@ -89,16 +95,17 @@ public class Player : MonoBehaviour
 
     }
 
-
-
     public void StartPlaying(EnemyType type)
     {
         if (currentEnemy != EnemyType.None)
         {
             StopPlaying(currentEnemy);
+
         }
         currentEnemy = type;
         enemyManager.PlayFor(currentEnemy);
+        instruments[(int)EnemyType.None].SetActive(true);
+
         switch (type)
         {
             case EnemyType.Classic:
@@ -159,11 +166,13 @@ public class Player : MonoBehaviour
 
     void StopPlaying(EnemyType type)
     {
+        instruments[(int)type].SetActive(false);
         if (currentEnemy == type)
         {
             soundWaves.waveType = EnemyType.None;
             enemyManager.StopPlaying(type);
             currentEnemy = EnemyType.None;
+            instruments[(int)EnemyType.None].SetActive(true);
         }
     }
     void Idle()
@@ -174,7 +183,11 @@ public class Player : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collider)
     {
-        Debug.Log(collider.name);
-        collider.GetComponent<EnemyStandardBehaviour>().Die();
+        if (collider.tag == "Enemy")
+        {
+            Debug.Log(collider.name);
+            collider.GetComponent<EnemyStandardBehaviour>().Die();
+
+        }
     }
 }

@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 95964526849064884}
   - component: {fileID: 114433715714370896}
   m_Layer: 0
-  m_Name: entity_000
+  m_Name: Guitar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
