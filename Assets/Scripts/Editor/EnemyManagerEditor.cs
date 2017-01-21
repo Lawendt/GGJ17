@@ -74,6 +74,8 @@ public class EnemyManagerEditor : Editor
         EditorGUILayout.PropertyField(serializedObject.FindProperty("typeDetection"), true);
         EditorGUILayout.PropertyField(serializedObject.FindProperty("timetoWaitToEnjoy"), true);
 
+
+
         serializedObject.ApplyModifiedProperties();
 
     }

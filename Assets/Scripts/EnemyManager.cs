@@ -38,6 +38,7 @@ public class EnemyManager : Singleton<EnemyManager>
     public TypeDetection typeDetection;
 
     float timeStart;
+
     public List<EnemyInstance> enemy;
     public GameObject enemyPrefab;
     public List<EnemyStandardBehaviour> enemyInScene;
@@ -94,10 +95,10 @@ public class EnemyManager : Singleton<EnemyManager>
     public void InstanceEnemy(EnemyType type, int i)
     {
         GameObject e = Instantiate(enemyPrefab);
-        e.name = type.ToString() + " " + i  + " @ " + Time.time;
+        e.name = type.ToString() + " " + i + " @ " + Time.time;
         EnemyStandardBehaviour es = e.GetComponent<EnemyStandardBehaviour>();
 
-        float a = UnityEngine.Random.Range(-45, 45);
+        float a = UnityEngine.Random.Range(-40, 40);
         if (UnityEngine.Random.Range(0, 2) == 1)
         {
             a += 180;
@@ -117,9 +118,10 @@ public class EnemyManager : Singleton<EnemyManager>
     public IEnumerator PlayForUpdate(EnemyType type)
     {
         float time = timetoWaitToEnjoy;
+        float lastDistance;
         while (true)
         {
-        float lastDistance = -1;
+            lastDistance = -1;
             for (int i = 0; i < enemyInScene.Count; i++)
             {
                 bool _do = true;
@@ -144,28 +146,57 @@ public class EnemyManager : Singleton<EnemyManager>
                         }
                         else
                         {
-                            //if (enemyInScene[i].type == type)
-                            //{
-                            //    Debug.Log("Not Close Enough");
-                            //}
                             _do = false;
                         }
                         break;
 
                 }
-                #region Debug
-                //if (enemyInScene[i].receivedEnjoy)
-                //    Debug.Log("Already received");
-                #endregion
-                if (enemyInScene[i].type == type && !enemyInScene[i].receivedEnjoy && _do)
+
+                if (_do)
                 {
-                    enemyInScene[i].Enjoy(time);
+                    if (enemyInScene[i].type == type && !enemyInScene[i].receivedEnjoy) // If the enemy has to enjoy and isn't alreading enjoying
+                    {
+                        enemyInScene[i].Enjoy(time);
+                    }
+                    else if (IsHating(enemyInScene[i].type, type) && !enemyInScene[i].hating)
+                    {
+                        //enemyInScene[i].Hate(time);
+                    }
+                    else
+                    {
+                        enemyInScene[i].Confuse(time);
+                    }
+
                 }
                 time -= Time.deltaTime;
                 if (time < 0)
                     time = 0;
             }
             yield return new WaitForEndOfFrame();
+        }
+    }
+
+    public bool IsHating(EnemyType typeEnemy, EnemyType current)
+    {
+        if (typeEnemy == EnemyType.Classic)
+        {
+            return current == EnemyType.Eletronic;
+        }
+        else if (typeEnemy == EnemyType.Eletronic)
+        {
+            return current == EnemyType.Reggae;
+        }
+        else if (typeEnemy == EnemyType.Reggae)
+        {
+            return current == EnemyType.Punk;
+        }
+        else if (typeEnemy == EnemyType.Punk)
+        {
+            return current == EnemyType.Classic;
+        }
+        else
+        {
+            return false;
         }
     }
 

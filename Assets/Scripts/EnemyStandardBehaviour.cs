@@ -10,31 +10,51 @@ public class EnemyStandardBehaviour : MonoBehaviour
         fadeAlpha,
         Scale
     }
+    #region SetUp
     public TypeOfDeath typeOfDeath;
-    private float startLenght;
+    public EnemyType type;
+    public float velScaleDown, timeToThrow = 2.0f;
+    public List<GameObject> prefabType;
+    #endregion
+    #region Walk Parameters
     Vector2 center;
-    public bool walking;
     public float angle, length, velocity;
     Vector2 position;
-    Animator animator;
-    public EnemyType type;
-    public float velScaleDown;
+    // When Hating
+    public float maxVelocity = 2.0f, acceleration = 1.0f;
+    #endregion
+    #region State Control Bools
+    public bool walking;
+    public bool hating;
     public bool receivedEnjoy;
-    public List<GameObject> prefabType;
+    #endregion
+    #region Local references
+    private float startLenght;
+    Animator animator;
+    float startVelocity;
+    
+    #endregion
     // Use this for initialization
+
     virtual protected void Start()
     {
         position = new Vector2();
         center = new Vector2();
+
     }
 
     public void Initialize(float a, float l, float v, EnemyType type)
     {
         startLenght = l;
+        startVelocity = v;
         angle = a;
         length = l;
         velocity = v;
+
+
         walking = true;
+        hating = false;
+        receivedEnjoy = false;
 
         this.type = type;
         int i = (int)type;
@@ -48,6 +68,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
     // Update is called once per frame
     virtual protected void Update()
     {
+        #region Walking
         if (walking)
         {
             length -= velocity * Time.deltaTime;
@@ -56,6 +77,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
 
             transform.position = position;
         }
+        #endregion
 
         if (Vector2.Distance(transform.position, center) < 0.5)
         {
@@ -99,7 +121,17 @@ public class EnemyStandardBehaviour : MonoBehaviour
 
         Die();
     }
+    void Die()
+    {
+        EnemyManager.Instance.removeEnemy(this);
+        Destroy(gameObject);
+    }
+    public float distanceFromObjective()
+    {
+        return Vector2.Distance(transform.position, center);
+    }
 
+    #region Enjoying
     IEnumerator _waitToEnjoy(float timeToWait)
     {
         receivedEnjoy = true;
@@ -112,7 +144,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
         StartCoroutine("_scaleDown");
     }
 
-    IEnumerator _waitToStop(float timeToWait)
+    IEnumerator _waitToStopEnjoying(float timeToWait)
     {
         receivedEnjoy = false;
         Debug.Log("Stop Enjoy " + name);
@@ -134,17 +166,59 @@ public class EnemyStandardBehaviour : MonoBehaviour
     virtual public void StopEnjoying(float timeToWait)
     {
 
-        StartCoroutine(_waitToStop(timeToWait));
+        StartCoroutine(_waitToStopEnjoying(timeToWait));
+    }
+    #endregion
+
+
+    #region Hate
+    Coroutine hateCoroutine;
+    IEnumerator _Hating(float timeToWait)
+    {
+        hating = true;
+        Debug.Log("Start Enjoy " + name + "\nTold to wait " + timeToWait);
+
+        if (timeToWait != 0)
+            yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timeToWait);
+
+        float timerHate = 0;
+        while (hating)
+        {
+            timerHate += Time.deltaTime;
+            velocity += acceleration * Time.deltaTime;
+            if(velocity > maxVelocity)
+            {
+                velocity = maxVelocity;
+            }
+            if(timerHate > timeToThrow)
+            {
+                timerHate = 0;
+                ThrowObject();
+            }
+            yield return new WaitForEndOfFrame();
+        }
+    }
+    public void Hate(float timeToWait)
+    {
+        hateCoroutine = StartCoroutine(_Hating(timeToWait));
     }
 
-    void Die()
+    public void StopHating(float timeToWait)
     {
-        EnemyManager.Instance.removeEnemy(this);
-        Destroy(gameObject);
+        hating = false;
+        StopCoroutine(hateCoroutine);
     }
 
-    public float distanceFromObjective()
+    public void ThrowObject()
     {
-        return Vector2.Distance(transform.position, center);
+        Debug.Log("Throw Object");
+    }
+
+    #endregion
+
+
+    public void Confuse(float timeToWait)
+    {
+
     }
 }
