@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class EnemyStandardBehaviour : MonoBehaviour
 {
+
+    public enum TypeOfDeath
+    {
+        fadeAlpha,
+        Scale
+    }
+    public TypeOfDeath typeOfDeath;
     public float timetoWaitToEnjoy = 1f;
     private float startLenght;
     Vector2 center;
@@ -61,23 +68,39 @@ public class EnemyStandardBehaviour : MonoBehaviour
 
     IEnumerator _scaleDown()
     {
-        Vector3 v = transform.localScale;
-        Color c = Color.white;
-        SpriteRenderer[] render = GetComponentsInChildren<SpriteRenderer>();
-        if (render.Length == 0)
-            yield return null;
-        c.a = render[0].color.a;
-        while (v.x > 0)
+        switch (typeOfDeath)
         {
-            c.a -= velScaleDown * Time.deltaTime;
-            for (int i = 0; i < render.Length; i++)
-                render[i].color = c;
-            //v.x -= velScaleDown * Time.deltaTime;
-            //v.y -= velScaleDown * Time.deltaTime;
-            //transform.localScale = v;
+            case TypeOfDeath.fadeAlpha:
+                Color c = Color.white;
+                SpriteRenderer[] render = GetComponentsInChildren<SpriteRenderer>();
+                if (render.Length == 0)
+                    yield return null;
+                c.a = render[0].color.a;
+                while (c.a > 0)
+                {
+                    c.a -= velScaleDown * Time.deltaTime;
+                    for (int i = 0; i < render.Length; i++)
+                        render[i].color = c;
+                   
 
-            yield return new WaitForEndOfFrame();
+                    yield return new WaitForEndOfFrame();
+                }
+                break;
+            case TypeOfDeath.Scale:
+                Vector3 v = transform.localScale;
+                
+                while (v.x > 0)
+                {
+
+                    v.x -= velScaleDown * Time.deltaTime;
+                    v.y -= velScaleDown * Time.deltaTime;
+                    transform.localScale = v;
+
+                    yield return new WaitForEndOfFrame();
+                }
+                break;
         }
+
         Die();
     }
 
