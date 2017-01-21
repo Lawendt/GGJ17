@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     //[System.NonSerialized]
     //public Animator animator;
     public GameObject gameplayUI;
-    public Renderer wavePlane;
+    public WaveGenerator soundWaves;
     [Range(0f, 100f)]
     public float life = 100f;
     public int maxLife = 100;
@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
         //Animação
         //Instanciar nova onda
         Debug.Log("Test");
-        wavePlane.material.SetVector("_SonarWaveColor", new Color(0.1f, 1, 0.1f, 0));
+        soundWaves.waveType = EnemyType.Punk;
         // Matar inimigos
     }
     public void PlayClassic()
@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
         //Audio
         //Animação
         //Instanciar nova onda
-        wavePlane.material.SetVector("_SonarWaveColor", new Color(1, 0.1f, 0.1f, 0));
+        soundWaves.waveType = EnemyType.Classic;
         // Matar inimigos
 
     }
@@ -105,7 +105,7 @@ public class Player : MonoBehaviour
         //Audio
         //Animação
         //Instanciar nova onda
-        wavePlane.material.SetVector("_SonarWaveColor", new Color(1.0f, 1.0f, 0.1f, 0));
+        soundWaves.waveType = EnemyType.Reggae;
         // Matar inimigos
     }
     public void PlayEletronic()
@@ -114,14 +114,13 @@ public class Player : MonoBehaviour
         //Audio
         //Animação
         //Instanciar nova onda
-        wavePlane.material.SetVector("_SonarWaveColor", new Color(0.1f, 0.1f, 1.0f, 0));
+        soundWaves.waveType = EnemyType.Eletronic;
         // Matar inimigos
         // Matar inimigos
     }
 
     void StopPlaying(EnemyType type)
     {
-        wavePlane.material.SetVector("_SonarWaveColor", new Color(1.0f, 1.0f, 1.0f, 0));
         if (currentEnemy == type)
         {
         enemyManager.StopPlaying(type);
