@@ -57,9 +57,9 @@ MonoBehaviour:
   length: 0
   velocity: 0
   type: 0
-  velScaleDown: 1
+  velScaleDown: 0.5
   prefabType:
   - {fileID: 1765978043167792, guid: ce78e2b127b878b45a837346f6d9827b, type: 2}
   - {fileID: 1727983256789566, guid: ccbe97525be538c47a03ebe89915af85, type: 2}
-  - {fileID: 0}
+  - {fileID: 1787325534879444, guid: 02b6c6a849d35764b98e261b60d124da, type: 2}
   - {fileID: 0}

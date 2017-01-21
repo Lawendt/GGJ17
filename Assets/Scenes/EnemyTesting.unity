@@ -264,17 +264,17 @@ MonoBehaviour:
     time: 0
   - type: 1
     time: 0.5
-  - type: 1
+  - type: 2
     time: 1
   - type: 1
     time: 0.5
   - type: 0
     time: 0
-  - type: 0
+  - type: 2
     time: 1
   - type: 0
     time: 0
-  - type: 0
+  - type: 2
     time: 1
   - type: 0
     time: 1.5

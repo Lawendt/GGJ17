@@ -64,9 +64,9 @@ public class EnemyStandardBehaviour : MonoBehaviour
         Vector3 v = transform.localScale;
         while (v.x > 0)
         {
-            v.x -= velScaleDown * Time.deltaTime;
-            v.y -= velScaleDown * Time.deltaTime;
-            transform.localScale = v;
+            //v.x -= velScaleDown * Time.deltaTime;
+            //v.y -= velScaleDown * Time.deltaTime;
+            //transform.localScale = v;
 
             yield return new WaitForEndOfFrame();
         }
