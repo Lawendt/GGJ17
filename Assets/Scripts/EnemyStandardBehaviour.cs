@@ -8,11 +8,21 @@ public class EnemyStandardBehaviour : MonoBehaviour {
     public bool walking;
     public float angle, length, velocity;
     Vector2 position;
+
+    public List<GameObject> prefabType;
     // Use this for initialization
     virtual protected  void Start () {
         position = new Vector2();
 	}
 	
+    public void setType(EnemyType type)
+    {
+        int i = (int)type;
+        if(prefabType[i] != null)
+        {
+            GameObject.Instantiate<GameObject>(prefabType[i], transform, false);
+        }
+    }
     public void Initialize(float a, float l, float v)
     {
         angle = a;
@@ -32,8 +42,9 @@ public class EnemyStandardBehaviour : MonoBehaviour {
             transform.position = position;
         }
 
-        if(Vector2.Distance(transform.position, center) > 1)
+        if(Vector2.Distance(transform.position, center) < 0.5)
         {
+            //GetComponent<SpriteRenderer>().color = Color.red;
             Debug.Log("Die");
         }
 	}

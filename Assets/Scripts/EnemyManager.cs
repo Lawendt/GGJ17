@@ -58,6 +58,7 @@ public class EnemyManager : MonoBehaviour
         GameObject e = Instantiate(enemyPrefab);
         e.name = "Enemy " + " i " + " @ " + Time.time;
         e.GetComponent<EnemyStandardBehaviour>().Initialize(UnityEngine.Random.Range(0, 360), 12, 1);
+        e.GetComponent<EnemyStandardBehaviour>().setType(type);
         //e.GetComponent<SpriteRenderer>().color = new Color(i / 5.0f, 0,0);
     }
     // Update is called once per frame
