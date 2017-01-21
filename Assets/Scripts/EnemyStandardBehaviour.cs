@@ -67,7 +67,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
             v.x -= velScaleDown * Time.deltaTime;
             v.y -= velScaleDown * Time.deltaTime;
             transform.localScale = v;
-            Debug.Log("Donw");
+
             yield return new WaitForEndOfFrame();
         }
         Die();
@@ -107,5 +107,10 @@ public class EnemyStandardBehaviour : MonoBehaviour
     {
         EnemyManager.Instance.removeEnemy(this);
         Destroy(gameObject);
+    }
+
+    public float distanceFromObjective()
+    {
+        return Vector2.Distance(transform.position, center);
     }
 }

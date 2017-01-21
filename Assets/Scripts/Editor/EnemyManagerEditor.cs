@@ -147,6 +147,7 @@ public class EnemyManagerEditor : Editor
         serializedObject.Update();
         list.DoLayoutList();
         EditorGUILayout.PropertyField(serializedObject.FindProperty("enemyPrefab"), true);
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("distanceToBeAffected"), true);
         serializedObject.ApplyModifiedProperties();
 
     }

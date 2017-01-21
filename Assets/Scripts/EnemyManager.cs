@@ -27,6 +27,8 @@ public class EnemyManager : Singleton<EnemyManager>
     public GameObject enemyPrefab;
     public List<EnemyStandardBehaviour> enemyInScene;
 
+    public float distanceToBeAffected;
+
     // Use this for initialization
     void Start()
     {
@@ -48,7 +50,7 @@ public class EnemyManager : Singleton<EnemyManager>
             {
                 yield return new WaitForSeconds(enemy[i].time);
             }
-            InstanceEnemy(enemy[i].type, i );
+            InstanceEnemy(enemy[i].type, i);
             i++;
         }
     }
@@ -63,20 +65,33 @@ public class EnemyManager : Singleton<EnemyManager>
         enemyInScene.Add(es);
         //e.GetComponent<SpriteRenderer>().color = new Color(i / 5.0f, 0,0);
     }
-    
+
     public void PlayFor(EnemyType type)
     {
-        for(int i = 0; i < enemyInScene.Count; i++)
+        StartCoroutine(PlayForUpdate(type));   
+    }
+
+    public IEnumerator PlayForUpdate(EnemyType type)
+    {
+        while (true)
         {
-            if(enemyInScene[i].type == type)
+            for (int i = 0; i < enemyInScene.Count; i++)
             {
-                enemyInScene[i].Enjoy();
+                if (enemyInScene[i].distanceFromObjective() <= distanceToBeAffected)
+                {
+                    if (enemyInScene[i].type == type && enemyInScene[i].walking)
+                    {
+                        enemyInScene[i].Enjoy();
+                    }
+                }
             }
+            yield return new WaitForEndOfFrame();
         }
     }
 
     public void StopPlaying(EnemyType type)
     {
+        StopAllCoroutines();
         for (int i = 0; i < enemyInScene.Count; i++)
         {
             if (enemyInScene[i].type == type)
