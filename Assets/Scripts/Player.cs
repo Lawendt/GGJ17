@@ -7,29 +7,30 @@ public class Player : MonoBehaviour
 {
     //[System.NonSerialized]
     //public Animator animator;
-    public GameObject bar, measurer;
-    [Range(0f, 1f)]
-    public float life = 1f;
-    [Range(-1f, 1f)]
-    public float moral = 0f;
-    Image fill, point;
+    public GameObject gameplayUI;
+    [Range(0f, 100f)]
+    public float life = 100f;
+    public int maxLife = 100;
+    Image fill;
+    Text percentage;
 
     private EnemyManager enemyManager;
     public EnemyType currentEnemy;
     public Text debugCurrentEnemy;
     void Start()
     {
+        life = (float)maxLife;
         currentEnemy = EnemyType.None;
         enemyManager = EnemyManager.Instance;
         //Animator = GetComponent<Animator>();
-        fill = bar.transform.GetChild(0).GetComponent<Image>();
-        point = measurer.transform.GetChild(0).GetChild(0).GetComponent<Image>();
+        fill = gameplayUI.transform.GetChild(0).GetChild(0).GetComponent<Image>();
+        percentage = gameplayUI.transform.GetChild(0).GetChild(1).GetComponent<Text>();
     }
     void Update()
     {
         debugCurrentEnemy.text = currentEnemy.ToString();
-        //fill.fillAmount = life;
-        //point.GetComponent<RectTransform>().localPosition = new Vector3(moral * measurer.GetComponent<RectTransform>().rect.width / 20f, 0f, 0f);
+        fill.fillAmount = life/(float)maxLife;
+        percentage.text = life.ToString("F1") + "%";
         if (Input.GetKeyDown(KeyCode.UpArrow))
             StartPlaying(EnemyType.Punk); //Tocando Punk
         if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -117,9 +118,9 @@ public class Player : MonoBehaviour
 
     void StopPlaying(EnemyType type)
     {
-        enemyManager.StopPlaying(type);
         if(currentEnemy == type)
         {
+        enemyManager.StopPlaying(type);
             currentEnemy = EnemyType.None;
         }
     }

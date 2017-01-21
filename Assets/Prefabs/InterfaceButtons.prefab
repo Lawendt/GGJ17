@@ -56,7 +56,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4468894442465012}
   m_Layer: 0
-  m_Name: Interface
+  m_Name: InterfaceButtons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -697,7 +697,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee4f74bebff05764488f45c07a69b399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
 --- !u!222 &222112445073047490
 CanvasRenderer:
   m_ObjectHideFlags: 1
