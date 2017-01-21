@@ -62,8 +62,16 @@ public class EnemyStandardBehaviour : MonoBehaviour
     IEnumerator _scaleDown()
     {
         Vector3 v = transform.localScale;
+        Color c = Color.white;
+        SpriteRenderer[] render = GetComponentsInChildren<SpriteRenderer>();
+        if (render.Length == 0)
+            yield return null;
+        c.a = render[0].color.a;
         while (v.x > 0)
         {
+            c.a -= velScaleDown * Time.deltaTime;
+            for (int i = 0; i < render.Length; i++)
+                render[i].color = c;
             //v.x -= velScaleDown * Time.deltaTime;
             //v.y -= velScaleDown * Time.deltaTime;
             //transform.localScale = v;
