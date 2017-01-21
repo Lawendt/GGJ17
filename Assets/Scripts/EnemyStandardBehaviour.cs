@@ -11,7 +11,6 @@ public class EnemyStandardBehaviour : MonoBehaviour
         Scale
     }
     public TypeOfDeath typeOfDeath;
-    public float timetoWaitToEnjoy = 1f;
     private float startLenght;
     Vector2 center;
     public bool walking;
@@ -20,16 +19,23 @@ public class EnemyStandardBehaviour : MonoBehaviour
     Animator animator;
     public EnemyType type;
     public float velScaleDown;
-
+    public bool receivedEnjoy;
     public List<GameObject> prefabType;
     // Use this for initialization
     virtual protected void Start()
     {
         position = new Vector2();
+        center = new Vector2();
     }
 
-    public void setType(EnemyType type)
+    public void Initialize(float a, float l, float v, EnemyType type)
     {
+        startLenght = l;
+        angle = a;
+        length = l;
+        velocity = v;
+        walking = true;
+
         this.type = type;
         int i = (int)type;
         if (prefabType[i] != null)
@@ -37,14 +43,6 @@ public class EnemyStandardBehaviour : MonoBehaviour
             GameObject g = GameObject.Instantiate<GameObject>(prefabType[i], transform, false);
             animator = g.GetComponent<Animator>();
         }
-    }
-    public void Initialize(float a, float l, float v)
-    {
-        startLenght = l;
-        angle = a;
-        length = l;
-        velocity = v;
-        walking = true;
     }
 
     // Update is called once per frame
@@ -81,21 +79,19 @@ public class EnemyStandardBehaviour : MonoBehaviour
                     c.a -= velScaleDown * Time.deltaTime;
                     for (int i = 0; i < render.Length; i++)
                         render[i].color = c;
-                   
-
                     yield return new WaitForEndOfFrame();
                 }
                 break;
             case TypeOfDeath.Scale:
                 Vector3 v = transform.localScale;
                 
-                while (v.x > 0)
+                while (v.x > 0.1)
                 {
 
                     v.x -= velScaleDown * Time.deltaTime;
                     v.y -= velScaleDown * Time.deltaTime;
                     transform.localScale = v;
-
+                    Debug.Log(v);
                     yield return new WaitForEndOfFrame();
                 }
                 break;
@@ -104,17 +100,22 @@ public class EnemyStandardBehaviour : MonoBehaviour
         Die();
     }
 
-    IEnumerator _waitToEnjoy()
+    IEnumerator _waitToEnjoy(float timeToWait)
     {
-        yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timetoWaitToEnjoy);
+        receivedEnjoy = true;
+        Debug.Log("Start Enjoy " + name);
+        yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timeToWait);
         animator.SetTrigger("Enjoy");
         walking = false;
         StartCoroutine("_scaleDown");
     }
 
-    IEnumerator _waitToStop()
+    IEnumerator _waitToStop(float timeToWait)
     {
-        yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timetoWaitToEnjoy);
+        receivedEnjoy = false;
+        Debug.Log("Stop Enjoy " + name);
+
+        yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timeToWait);
         if (!walking)
         {
             StopCoroutine("_scaleDown");
@@ -123,15 +124,15 @@ public class EnemyStandardBehaviour : MonoBehaviour
         }
     }
 
-    virtual public void Enjoy()
+    virtual public void Enjoy(float timeToWait)
     {
-        StartCoroutine("_waitToEnjoy");
+        StartCoroutine(_waitToEnjoy(timeToWait));
     }
 
-    virtual public void StopEnjoying()
+    virtual public void StopEnjoying(float timeToWait)
     {
 
-        StartCoroutine("_waitToStop");
+        StartCoroutine(_waitToStop(timeToWait));
     }
 
     void Die()

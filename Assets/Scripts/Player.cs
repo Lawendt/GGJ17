@@ -27,31 +27,69 @@ public class Player : MonoBehaviour
         fill = gameplayUI.transform.GetChild(0).GetChild(0).GetComponent<Image>();
         percentage = gameplayUI.transform.GetChild(0).GetChild(1).GetComponent<Text>();
     }
+
+    public List<EnemyType> queueInteraction;
     void Update()
     {
         debugCurrentEnemy.text = currentEnemy.ToString();
-        fill.fillAmount = life/(float)maxLife;
+        fill.fillAmount = life / (float)maxLife;
         percentage.text = life.ToString("F1") + "%";
         if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            queueInteraction.Add(EnemyType.Punk);
             StartPlaying(EnemyType.Punk); //Tocando Punk
+        }
         if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            queueInteraction.Add(EnemyType.Classic);
             StartPlaying(EnemyType.Classic); //Tocando Clássico
+        }
         if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            queueInteraction.Add(EnemyType.Reggae);
             StartPlaying(EnemyType.Reggae); //Tocando Reggae
+        }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            queueInteraction.Add(EnemyType.Eletronic);
             StartPlaying(EnemyType.Eletronic); //Tocando Eletrônica
+        }
 
         if (Input.GetKeyUp(KeyCode.UpArrow))
-            StopPlaying(EnemyType.Punk); //Tocando Punk
+        {
+            KeyUp(EnemyType.Punk);
+        }
         if (Input.GetKeyUp(KeyCode.DownArrow))
-            StopPlaying(EnemyType.Classic); //Tocando Clássico
+        {
+            KeyUp(EnemyType.Classic);
+        }
         if (Input.GetKeyUp(KeyCode.RightArrow))
-            StopPlaying(EnemyType.Reggae); //Tocando Reggae
+        {
+            KeyUp(EnemyType.Reggae);
+        }
         if (Input.GetKeyUp(KeyCode.LeftArrow))
-            StopPlaying(EnemyType.Eletronic); //Tocando Eletrônica
+        {
+            KeyUp(EnemyType.Eletronic);
 
+        }
 
     }
+
+    public void KeyUp(EnemyType type)
+    {
+        queueInteraction.Remove(type);
+        if (currentEnemy == type && queueInteraction.Count != 0)
+        {
+            StartPlaying(queueInteraction[queueInteraction.Count - 1]);
+        }
+        else
+        {
+            StopPlaying(type); //Tocando Punk
+        }
+
+    }
+
+
 
     public void StartPlaying(EnemyType type)
     {
@@ -123,7 +161,7 @@ public class Player : MonoBehaviour
     {
         if (currentEnemy == type)
         {
-        enemyManager.StopPlaying(type);
+            enemyManager.StopPlaying(type);
             currentEnemy = EnemyType.None;
         }
     }

@@ -150,6 +150,8 @@ public class EnemyManagerEditor : Editor
         EditorGUILayout.PropertyField(serializedObject.FindProperty("distanceToBeAffected"), true);
         EditorGUILayout.PropertyField(serializedObject.FindProperty("typeGeneration"), true);
         EditorGUILayout.PropertyField(serializedObject.FindProperty("typeDetection"), true);
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("timetoWaitToEnjoy"), true);
+
         serializedObject.ApplyModifiedProperties();
 
     }
