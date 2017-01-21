@@ -11,7 +11,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
     public float angle, length, velocity;
     Vector2 position;
     Animator animator;
-    EnemyType type;
+    public EnemyType type;
     public float velScaleDown;
 
     public List<GameObject> prefabType;
@@ -55,27 +55,27 @@ public class EnemyStandardBehaviour : MonoBehaviour
         if (Vector2.Distance(transform.position, center) < 0.5)
         {
             //GetComponent<SpriteRenderer>().color = Color.red;
-            Destroy(gameObject);
+            Die();
         }
     }
 
     IEnumerator _scaleDown()
     {
         Vector3 v = transform.localScale;
-        while(v.x > 0)
+        while (v.x > 0)
         {
             v.x -= velScaleDown * Time.deltaTime;
             v.y -= velScaleDown * Time.deltaTime;
             transform.localScale = v;
+            Debug.Log("Donw");
             yield return new WaitForEndOfFrame();
         }
-        Destroy(gameObject);
+        Die();
     }
-
 
     IEnumerator _waitToEnjoy()
     {
-        yield return new WaitForSeconds( Vector2.Distance(transform.position, center) / startLenght * timetoWaitToEnjoy);
+        yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timetoWaitToEnjoy);
         animator.SetTrigger("Enjoy");
         walking = false;
         StartCoroutine("_scaleDown");
@@ -84,20 +84,28 @@ public class EnemyStandardBehaviour : MonoBehaviour
     IEnumerator _waitToStop()
     {
         yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timetoWaitToEnjoy);
-        StopCoroutine("_scaleDown");
-        animator.SetTrigger("StopEnjoying");
-        walking = true;
+        if (!walking)
+        {
+            StopCoroutine("_scaleDown");
+            animator.SetTrigger("StopEnjoying");
+            walking = true;
+        }
     }
 
-    virtual protected void Enjoy()
+    virtual public void Enjoy()
     {
         StartCoroutine("_waitToEnjoy");
-
     }
 
-    virtual protected void StopEnjoying()
+    virtual public void StopEnjoying()
     {
+
         StartCoroutine("_waitToStop");
-       
+    }
+
+    void Die()
+    {
+        EnemyManager.Instance.removeEnemy(this);
+        Destroy(gameObject);
     }
 }

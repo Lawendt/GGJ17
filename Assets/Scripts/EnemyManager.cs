@@ -9,7 +9,8 @@ public enum EnemyType
     Classic,
     Punk,
     Reggae,
-    Eletronic
+    Eletronic,
+    None
 }
 
 [Serializable]
@@ -19,13 +20,12 @@ public class EnemyInstance
     public float time;
 }
 
-public class EnemyManager : MonoBehaviour
+public class EnemyManager : Singleton<EnemyManager>
 {
-    public
     float timeStart;
     public List<EnemyInstance> enemy;
     public GameObject enemyPrefab;
-
+    public List<EnemyStandardBehaviour> enemyInScene;
 
     // Use this for initialization
     void Start()
@@ -57,20 +57,37 @@ public class EnemyManager : MonoBehaviour
     {
         GameObject e = Instantiate(enemyPrefab);
         e.name = "Enemy " + " i " + " @ " + Time.time;
-        e.GetComponent<EnemyStandardBehaviour>().Initialize(UnityEngine.Random.Range(0, 360), 12, 1);
-        e.GetComponent<EnemyStandardBehaviour>().setType(type);
+        EnemyStandardBehaviour es = e.GetComponent<EnemyStandardBehaviour>();
+        es.Initialize(UnityEngine.Random.Range(0, 360), 12, 1);
+        es.setType(type);
+        enemyInScene.Add(es);
         //e.GetComponent<SpriteRenderer>().color = new Color(i / 5.0f, 0,0);
     }
-
-
     
     public void PlayFor(EnemyType type)
     {
-
+        for(int i = 0; i < enemyInScene.Count; i++)
+        {
+            if(enemyInScene[i].type == type)
+            {
+                enemyInScene[i].Enjoy();
+            }
+        }
     }
 
     public void StopPlaying(EnemyType type)
     {
+        for (int i = 0; i < enemyInScene.Count; i++)
+        {
+            if (enemyInScene[i].type == type)
+            {
+                enemyInScene[i].StopEnjoying();
+            }
+        }
+    }
 
+    public void removeEnemy(EnemyStandardBehaviour e)
+    {
+        enemyInScene.Remove(e);
     }
 }
