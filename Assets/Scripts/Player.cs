@@ -161,6 +161,7 @@ public class Player : MonoBehaviour
     {
         if (currentEnemy == type)
         {
+            soundWaves.waveType = EnemyType.None;
             enemyManager.StopPlaying(type);
             currentEnemy = EnemyType.None;
         }
