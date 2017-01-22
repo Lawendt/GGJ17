@@ -28,3 +28,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+Assets/Sprites/Idle/entity_000.controller
+Assets/Sprites/Idle/entity_000.controller.meta
+Assets/Sprites/Idle/entity_000.prefab
+Assets/Sprites/Idle/entity_000.prefab.meta

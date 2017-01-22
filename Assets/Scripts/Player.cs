@@ -242,17 +242,25 @@ public class Player : Singleton<Player>
     }
 
     #region Shake
+    bool isFixingShake;
     public void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.tag == "Enemy")
         {
-            Debug.Log(collider.name);
-            collider.GetComponent<EnemyStandardBehaviour>().Shake();
-            AddShake();
+            // Debug.Log(collider.name);
+            if (!collider.GetComponent<EnemyStandardBehaviour>().shaking)
+            {
+                collider.GetComponent<EnemyStandardBehaviour>().Shake();
+                AddShake();
+            }
         }
     }
     public void AddShake()
     {
+        if (isFixingShake)
+        {
+            StopCoroutine("_fixShake");
+        }
         numberOfPeopleShaking++;
         if (numberOfPeopleShaking == 1)
             StartCoroutine("_shake");
@@ -262,11 +270,13 @@ public class Player : Singleton<Player>
         numberOfPeopleShaking--;
         if (numberOfPeopleShaking == 0)
             StopCoroutine("_shake");
+
+        StartCoroutine("_fixShake");
     }
 
     IEnumerator _shake()
     {
-        Vector3 rot = new Vector3();
+        Vector3 rot = transform.rotation.eulerAngles;
         Vector3 dest = new Vector3();
 
         dest.z = -10 * numberOfPeopleShaking / 3.0f;
@@ -296,5 +306,39 @@ public class Player : Singleton<Player>
             }
         }
     }
+
+    IEnumerator _fixShake()
+    {
+        yield return new WaitForSeconds(1);
+        isFixingShake = true;
+        Vector3 rot = transform.rotation.eulerAngles;
+        Vector3 dest = new Vector3();
+        while (Vector3.Distance(rot, dest) > 0.1)
+        {
+            rot = Vector3.Lerp(rot, dest, 0.1f);
+            transform.rotation = Quaternion.Euler(rot);
+            yield return new WaitForEndOfFrame();
+        }
+        if (dest.z > 0)
+        {
+            dest.z = -10 * numberOfPeopleShaking / 3.0f;
+            if (dest.z < -25)
+            {
+                dest.z = -25;
+            }
+        }
+        else
+        {
+            dest.z = 10 * numberOfPeopleShaking / 3.0f;
+            if (dest.z > 25)
+            {
+                dest.z = 25;
+            }
+
+        }
+        isFixingShake = false;
+
+    }
+
     #endregion
 }
