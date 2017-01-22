@@ -37,7 +37,20 @@ public class EnemyStandardBehaviour : MonoBehaviour
     private float startLenght;
     Animator animator;
     float startVelocity;
-
+    Player player;
+    float _lifeEnemy = 0;
+    float lifeEnemy
+    {
+        get
+        {
+            return _lifeEnemy;
+        }
+        set
+        {
+            player.addScore(value - _lifeEnemy);
+            _lifeEnemy = value;
+        }
+    }
 
 
     #endregion
@@ -49,9 +62,9 @@ public class EnemyStandardBehaviour : MonoBehaviour
     }
     virtual protected void Start()
     {
+        player = Player.Instance;
         position = new Vector2();
         center = new Vector2();
-
     }
 
     public void Initialize(float a, float l, float v, EnemyType type)
@@ -112,7 +125,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
     IEnumerator _scaleDown()
     {
 
-        float t = 0;
+
         switch (typeOfDeath)
         {
             case TypeOfDeath.fadeAlpha:
@@ -123,11 +136,12 @@ public class EnemyStandardBehaviour : MonoBehaviour
                 c.a = render[0].color.a;
                 float maxA = c.a;
                 float minA = 0;
-                while (c.a > 0)
+                while (c.a > minA)
                 {
-                    c.a -= velScaleDown * Time.deltaTime;
+                    c.a = lifeEnemy * maxA + minA;
                     for (int i = 0; i < render.Length; i++)
                         render[i].color = c;
+                    lifeEnemy += velScaleDown * Time.deltaTime;
                     yield return new WaitForEndOfFrame();
                 }
                 break;
@@ -138,10 +152,10 @@ public class EnemyStandardBehaviour : MonoBehaviour
                 {
                     if (!star.isPlaying)
                         star.Play();
-                    v.x = (deathCurve.Evaluate(t)) * start.x;
-                    v.y = (deathCurve.Evaluate(t)) * start.y;
+                    v.x = (deathCurve.Evaluate(lifeEnemy)) * start.x;
+                    v.y = (deathCurve.Evaluate(lifeEnemy)) * start.y;
                     transform.localScale = v;
-                    t += velScaleDown * Time.deltaTime;
+                    lifeEnemy += velScaleDown * Time.deltaTime;
                     yield return new WaitForEndOfFrame();
                 }
                 break;
@@ -155,7 +169,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
         Debug.Log("Start Enjoy " + name + "\nTold to wait " + timeToWait);
         if (timeToWait != 0)
             yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timeToWait);
-    
+
 
         animator.SetTrigger("Enjoy");
         walking = false;

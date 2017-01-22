@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour
+public class Player : Singleton<Player>
 {
     //[System.NonSerialized]
     //public Animator animator;
@@ -16,12 +16,15 @@ public class Player : MonoBehaviour
     Text percentage;
     public GameObject guitar, keyboard, techno, drums, idle;
     public GameObject guitarOBJ, keyboardOBJ, technoOBJ, drumsOBJ;
+    public Text scoreText; 
+    public float score = 0;
 
     private EnemyManager enemyManager;
     public EnemyType currentEnemy;
     // public Text debugCurrentEnemy;
     void Start()
     {
+        addScore(0);
         life = (float)maxLife;
         currentEnemy = EnemyType.None;
         enemyManager = EnemyManager.Instance;
@@ -216,6 +219,12 @@ public class Player : MonoBehaviour
     {
         currentEnemy = EnemyType.None;
         //Desativar onda
+    }
+
+   public void addScore(float f)
+    {
+        score += f;
+        scoreText.text = score.ToString("0.00");
     }
 
     public void OnTriggerEnter2D(Collider2D collider)

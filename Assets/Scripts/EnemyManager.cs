@@ -35,6 +35,7 @@ public class EnemyManager : Singleton<EnemyManager>
     }
 
     public GameObject player;
+    public Player playerScript;
 
     public TypeGeneration typeGeneration;
     public TypeDetection typeDetection;
@@ -50,11 +51,10 @@ public class EnemyManager : Singleton<EnemyManager>
 
     public float minRandom, maxRandom;
 
-
-
     // Use this for initialization
     void Start()
     {
+        playerScript = player.GetComponent<Player>();
         Play();
     }
 
@@ -96,7 +96,6 @@ public class EnemyManager : Singleton<EnemyManager>
 
     }
 
-
     public void InstanceEnemy(EnemyType type, int i)
     {
         GameObject e = Instantiate(enemyPrefab);
@@ -110,8 +109,8 @@ public class EnemyManager : Singleton<EnemyManager>
         }
 
         es.Initialize(a, 12, 1, type);
-        if (enemyInScene.Count == 0)
-            es.SetHighlight(true);
+        //if (enemyInScene.Count == 0)
+        //    es.SetHighlight(true);
         enemyInScene.Add(es);
         //e.GetComponent<SpriteRenderer>().color = new Color(i / 5.0f, 0,0);
     }
@@ -224,8 +223,8 @@ public class EnemyManager : Singleton<EnemyManager>
     public void removeEnemy(EnemyStandardBehaviour e)
     {
         enemyInScene.Remove(e);
-        if (enemyInScene.Count != 0)
-            enemyInScene[0].SetHighlight(true);
+        //if (enemyInScene.Count != 0)
+        //    enemyInScene[0].SetHighlight(true);
     }
 
 

@@ -279,7 +279,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: -4
+  m_SortingOrder: -6
   m_Sprite: {fileID: 21300000, guid: 00b577ac5d16ee2499dc0181c1a5e9b0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -450,6 +450,7 @@ MonoBehaviour:
   _dontDestroyOnLoad: 0
   _destroyExistentObject: 0
   player: {fileID: 1311960178}
+  playerScript: {fileID: 0}
   typeGeneration: 1
   typeDetection: 2
   enemy:
@@ -512,6 +513,12 @@ Transform:
   m_PrefabParentObject: {fileID: 4041542508748640, guid: a99480c6f81ace046857db26c66def03,
     type: 2}
   m_PrefabInternal: {fileID: 1812532754}
+--- !u!114 &515674322 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114926873241047418, guid: 44f418a4559518d4f8e8679637cfe64a,
+    type: 2}
+  m_PrefabInternal: {fileID: 2088613242}
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1 &564998756 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1268491662351350, guid: 34f3ed012e18c2246963a36c3445613e,
@@ -1222,7 +1229,7 @@ Prefab:
     - target: {fileID: 212812993303650718, guid: 436c61c3060db1249b300cd9e2a5fb62,
         type: 2}
       propertyPath: m_SortingOrder
-      value: -9
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 4873942045726224, guid: 436c61c3060db1249b300cd9e2a5fb62, type: 2}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -1276,12 +1283,32 @@ Prefab:
     - target: {fileID: 114183110754551300, guid: 436c61c3060db1249b300cd9e2a5fb62,
         type: 2}
       propertyPath: sortingOrder
-      value: 4
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 114183110754551300, guid: 436c61c3060db1249b300cd9e2a5fb62,
         type: 2}
       propertyPath: applySpriterZOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 212808626872244428, guid: 436c61c3060db1249b300cd9e2a5fb62,
+        type: 2}
+      propertyPath: m_SortingOrder
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 212740830433468436, guid: 436c61c3060db1249b300cd9e2a5fb62,
+        type: 2}
+      propertyPath: m_SortingOrder
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 212000308937380284, guid: 436c61c3060db1249b300cd9e2a5fb62,
+        type: 2}
+      propertyPath: m_SortingOrder
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 212742585860576250, guid: 436c61c3060db1249b300cd9e2a5fb62,
+        type: 2}
+      propertyPath: m_SortingOrder
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 436c61c3060db1249b300cd9e2a5fb62, type: 2}
@@ -1418,6 +1445,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17fa31c815873bd48acbbc94506efd83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dontDestroyOnLoad: 0
+  _destroyExistentObject: 0
   gameplayUI: {fileID: 1349077989456690, guid: 44f418a4559518d4f8e8679637cfe64a, type: 2}
   soundWaves: {fileID: 928500073}
   life: 1
@@ -1431,6 +1460,8 @@ MonoBehaviour:
   keyboardOBJ: {fileID: 192443288}
   technoOBJ: {fileID: 1158659150}
   drumsOBJ: {fileID: 1075100084}
+  scoreText: {fileID: 515674322}
+  score: 0
   currentEnemy: 0
   queueInteraction: 
 --- !u!4 &1311960180
