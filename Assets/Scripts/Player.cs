@@ -52,21 +52,26 @@ public class Player : Singleton<Player>
         {
             queueInteraction.Add(EnemyType.Classic);
             StartPlaying(EnemyType.Classic); //Tocando Clássico
+            MusicManager.Instance.ChangeMusicType(EnemyType.Classic);
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             queueInteraction.Add(EnemyType.Eletronic);
             StartPlaying(EnemyType.Eletronic); //Tocando Eletronica
+            MusicManager.Instance.ChangeMusicType(EnemyType.Eletronic);
+
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             queueInteraction.Add(EnemyType.Punk);
             StartPlaying(EnemyType.Punk); //Tocando Punk
+            MusicManager.Instance.ChangeMusicType(EnemyType.Punk);
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             queueInteraction.Add(EnemyType.Reggae);
             StartPlaying(EnemyType.Reggae); //Tocando Reggae
+            MusicManager.Instance.ChangeMusicType(EnemyType.Reggae);
         }
 
         if (Input.GetKeyUp(KeyCode.UpArrow))
@@ -196,6 +201,9 @@ public class Player : Singleton<Player>
     {
         if (currentEnemy == type)
         {
+            //Start base music
+            MusicManager.Instance.ChangeMusicType(EnemyType.None);
+
             switch (type)
             {
                 case EnemyType.Classic:
