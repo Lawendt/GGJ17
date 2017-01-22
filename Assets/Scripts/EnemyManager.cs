@@ -96,7 +96,7 @@ public class EnemyManager : Singleton<EnemyManager>
 
     }
 
-   
+
     public void InstanceEnemy(EnemyType type, int i)
     {
         GameObject e = Instantiate(enemyPrefab);
@@ -110,6 +110,8 @@ public class EnemyManager : Singleton<EnemyManager>
         }
 
         es.Initialize(a, 12, 1, type);
+        if (enemyInScene.Count == 0)
+            es.SetHighlight(true);
         enemyInScene.Add(es);
         //e.GetComponent<SpriteRenderer>().color = new Color(i / 5.0f, 0,0);
     }
@@ -222,8 +224,9 @@ public class EnemyManager : Singleton<EnemyManager>
     public void removeEnemy(EnemyStandardBehaviour e)
     {
         enemyInScene.Remove(e);
-        enemyInScene[0].SetHighlight(true);
+        if (enemyInScene.Count != 0)
+            enemyInScene[0].SetHighlight(true);
     }
 
-   
+
 }

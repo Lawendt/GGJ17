@@ -14,7 +14,8 @@ public class Player : MonoBehaviour
     public int maxLife = 100;
     Image fill;
     Text percentage;
-    public GameObject[] instruments;
+    public GameObject guitar, keyboard, techno, drums, idle;
+    public GameObject guitarOBJ, keyboardOBJ, technoOBJ, drumsOBJ;
 
     private EnemyManager enemyManager;
     public EnemyType currentEnemy;
@@ -28,10 +29,12 @@ public class Player : MonoBehaviour
         fill = gameplayUI.transform.GetChild(0).GetChild(0).GetComponent<Image>();
         percentage = gameplayUI.transform.GetChild(0).GetChild(1).GetComponent<Text>();
 
-        for (int i = 0; i < 4; i++)
-        {
-            instruments[i].SetActive(false);
-        }
+        guitar.SetActive(false);
+        keyboard.SetActive(false);
+        techno.SetActive(false);
+        drums.SetActive(false);
+
+
     }
 
     public List<EnemyType> queueInteraction;
@@ -104,7 +107,7 @@ public class Player : MonoBehaviour
         }
         currentEnemy = type;
         enemyManager.PlayFor(currentEnemy);
-        instruments[(int)EnemyType.None].SetActive(true);
+
 
         switch (type)
         {
@@ -128,12 +131,20 @@ public class Player : MonoBehaviour
         //Audio
         //Animação
         //Instanciar nova onda
+        idle.SetActive(false);
+        guitar.SetActive(true);
+        guitarOBJ.SetActive(false);
+
         Debug.Log("Test");
         soundWaves.waveType = EnemyType.Punk;
+
         // Matar inimigos
     }
     public void PlayClassic()
     {
+        idle.SetActive(false);
+        keyboard.SetActive(true);
+        keyboardOBJ.SetActive(false);
 
         //Desativar onda
         //Audio
@@ -145,6 +156,9 @@ public class Player : MonoBehaviour
     }
     public void PlayReggae()
     {
+        idle.SetActive(false);
+        drums.SetActive(true);
+        drumsOBJ.SetActive(false);
 
         //Desativar onda
         //Audio
@@ -155,6 +169,11 @@ public class Player : MonoBehaviour
     }
     public void PlayEletronic()
     {
+        idle.SetActive(false);
+        techno.SetActive(true);
+        technoOBJ.SetActive(false);
+
+
         //Desativar onda
         //Audio
         //Animação
@@ -166,13 +185,31 @@ public class Player : MonoBehaviour
 
     void StopPlaying(EnemyType type)
     {
-        instruments[(int)type].SetActive(false);
         if (currentEnemy == type)
         {
+            switch (type)
+            {
+                case EnemyType.Classic:
+                    keyboard.SetActive(false);
+                    keyboardOBJ.SetActive(true);
+                    break;
+                case EnemyType.Punk:
+                    guitar.SetActive(false);
+                    guitarOBJ.SetActive(true);
+                    break;
+                case EnemyType.Reggae:
+                    drums.SetActive(false);
+                    drumsOBJ.SetActive(true);
+                    break;
+                case EnemyType.Eletronic:
+                    techno.SetActive(false);
+                    technoOBJ.SetActive(true);
+                    break;
+            }
             soundWaves.waveType = EnemyType.None;
             enemyManager.StopPlaying(type);
             currentEnemy = EnemyType.None;
-            instruments[(int)EnemyType.None].SetActive(true);
+            idle.SetActive(true);
         }
     }
     void Idle()
