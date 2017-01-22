@@ -10,6 +10,7 @@ public class WaveGenerator : MonoBehaviour {
 	public float speed=1f;
 	public float timer=1f;
     public EnemyType waveType;
+    public float size = 1f;
 
     // Use this for initialization
     void Start () {
@@ -26,19 +27,19 @@ public class WaveGenerator : MonoBehaviour {
             switch (waveType)
             {
                 case EnemyType.Classic:
-                    pullFromPool(1f, 5f, Color.red);
+                    pullFromPool(1f, size, Color.red);
                     break;
                 case EnemyType.Punk:
-                    pullFromPool(1f, 5f, Color.green);
+                    pullFromPool(1f, size, Color.green);
                     break;
                 case EnemyType.Reggae:
-                    pullFromPool(1f, 5f, Color.yellow);
+                    pullFromPool(1f, size, Color.yellow);
                     break;
                 case EnemyType.Eletronic:
-                    pullFromPool(1f, 5f, Color.blue);
+                    pullFromPool(1f, size, Color.blue);
                     break;
                 case EnemyType.None:
-                    pullFromPool(1f, 5f, Color.white);
+                    pullFromPool(1f, size, Color.white);
                     break;
             }
         }

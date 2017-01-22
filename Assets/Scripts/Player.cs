@@ -31,6 +31,8 @@ public class Player : Singleton<Player>
 
     public float loseByPerson;
     public float earnByDollar;
+
+    float waveSize = 1f;
     
     void Start()
     {
@@ -51,40 +53,19 @@ public class Player : Singleton<Player>
 
     }
 
+    bool pressed = false;
     public List<EnemyType> queueInteraction;
     void Update()
     {
         // debugCurrentEnemy.text = currentEnemy.ToString();
         fill.fillAmount = life / (float)maxLife;
         percentage.text = life.ToString("F1") + "%";
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            queueInteraction.Add(EnemyType.Classic);
-            StartPlaying(EnemyType.Classic); //Tocando Clássico
-            MusicManager.Instance.ChangeMusicType(EnemyType.Classic);
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            queueInteraction.Add(EnemyType.Eletronic);
-            StartPlaying(EnemyType.Eletronic); //Tocando Eletronica
-            MusicManager.Instance.ChangeMusicType(EnemyType.Eletronic);
 
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            queueInteraction.Add(EnemyType.Punk);
-            StartPlaying(EnemyType.Punk); //Tocando Punk
-            MusicManager.Instance.ChangeMusicType(EnemyType.Punk);
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            queueInteraction.Add(EnemyType.Reggae);
-            StartPlaying(EnemyType.Reggae); //Tocando Reggae
-            MusicManager.Instance.ChangeMusicType(EnemyType.Reggae);
-        }
+       
 
         if (Input.GetKeyUp(KeyCode.UpArrow))
         {
+
             KeyUp(EnemyType.Classic);
         }
         if (Input.GetKeyUp(KeyCode.DownArrow))
@@ -100,6 +81,44 @@ public class Player : Singleton<Player>
             KeyUp(EnemyType.Reggae);
         }
 
+        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)) {
+            if(waveSize < 5f)
+            {
+                waveSize += Time.deltaTime * 2f;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            pressed = true;
+            queueInteraction.Add(EnemyType.Classic);
+            StartPlaying(EnemyType.Classic); //Tocando Clássico
+            MusicManager.Instance.ChangeMusicType(EnemyType.Classic);
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            pressed = true;
+            queueInteraction.Add(EnemyType.Eletronic);
+            StartPlaying(EnemyType.Eletronic); //Tocando Eletronica
+            MusicManager.Instance.ChangeMusicType(EnemyType.Eletronic);
+
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            pressed = true;
+            queueInteraction.Add(EnemyType.Punk);
+            StartPlaying(EnemyType.Punk); //Tocando Punk
+            MusicManager.Instance.ChangeMusicType(EnemyType.Punk);
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            pressed = true;
+            queueInteraction.Add(EnemyType.Reggae);
+            StartPlaying(EnemyType.Reggae); //Tocando Reggae
+            MusicManager.Instance.ChangeMusicType(EnemyType.Reggae);
+        }
+        
+
+        soundWaves.size = waveSize;
         if (numberOfPeopleShaking != 0)
         {
             life -= numberOfPeopleShaking * Time.deltaTime;
@@ -153,9 +172,12 @@ public class Player : Singleton<Player>
 
     public void KeyUp(EnemyType type)
     {
+        waveSize = 1f;
+        pressed = false;
         queueInteraction.Remove(type);
         if (currentEnemy == type && queueInteraction.Count != 0)
         {
+            pressed = true;
             StartPlaying(queueInteraction[queueInteraction.Count - 1]);
         }
         else
@@ -167,6 +189,7 @@ public class Player : Singleton<Player>
 
     public void StartPlaying(EnemyType type)
     {
+        
         if (currentEnemy != EnemyType.None)
         {
             StopPlaying(currentEnemy);
