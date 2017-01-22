@@ -25,7 +25,6 @@ public class Player : Singleton<Player>
 
     private EnemyManager enemyManager;
     ParticleSystem rain;
-    AudioSource rainSound;
     public EnemyType currentEnemy;
     // public Text debugCurrentEnemy;
 
@@ -36,7 +35,6 @@ public class Player : Singleton<Player>
     
     void Start()
     {
-        rainSound = rainPrefab.GetComponent<AudioSource>();
         rain = rainPrefab.GetComponent<ParticleSystem>();
         addScore(0);
         life = 50;
@@ -128,8 +126,8 @@ public class Player : Singleton<Player>
             if (!rain.isPlaying)
             {
                 rain.Play();
-                rainSound.Play();
             }
+
             if (life <= 0f) //LOSS
             {
                 Time.timeScale = 0f;
@@ -144,7 +142,7 @@ public class Player : Singleton<Player>
             if (rain.isPlaying)
             {
                 rain.Stop();
-                rainSound.Stop();
+
             }
         }
         //// Win by Score
