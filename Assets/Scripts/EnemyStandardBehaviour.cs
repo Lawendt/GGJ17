@@ -32,6 +32,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
     public bool walking;
     public bool hating;
     public bool receivedEnjoy;
+    public bool shaking;
     #endregion
     #region Local references
     private float startLenght;
@@ -104,15 +105,19 @@ public class EnemyStandardBehaviour : MonoBehaviour
         }
         #endregion
 
-        if (Vector2.Distance(transform.position, center) < 0.5)
-        {
-            //GetComponent<SpriteRenderer>().color = Color.red;
-            Die();
-        }
+        //if (Vector2.Distance(transform.position, center) < 0.5)
+        //{
+        //    //GetComponent<SpriteRenderer>().color = Color.red;
+        //    Die();
+        //}
     }
 
     public void Die()
     {
+        if (shaking)
+        {
+            player.removeShake();
+        }
         EnemyManager.Instance.removeEnemy(this);
         Destroy(gameObject);
     }
@@ -170,7 +175,10 @@ public class EnemyStandardBehaviour : MonoBehaviour
         if (timeToWait != 0)
             yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timeToWait);
 
-
+        if (shaking)
+        {
+            player.removeShake();
+        }
         animator.SetTrigger("Enjoy");
         walking = false;
         StartCoroutine("_scaleDown");
@@ -180,7 +188,6 @@ public class EnemyStandardBehaviour : MonoBehaviour
     {
         receivedEnjoy = false;
         Debug.Log("Stop Enjoy " + name);
-
         yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timeToWait);
         star.Stop();
         if (!walking)
@@ -188,6 +195,11 @@ public class EnemyStandardBehaviour : MonoBehaviour
             StopCoroutine("_scaleDown");
             animator.SetTrigger("StopEnjoying");
             walking = true;
+        }
+        if (shaking && lifeEnemy > 0.2)
+        {
+            player.AddShake();
+            walking = false;
         }
     }
 
@@ -272,6 +284,15 @@ public class EnemyStandardBehaviour : MonoBehaviour
     public void EndConfuse()
     {
         interrogation.Stop();
+    }
+    #endregion
+
+    #region Shake
+
+    public void Shake()
+    {
+        walking = false;
+        shaking = true;
     }
     #endregion
 

@@ -16,8 +16,10 @@ public class Player : Singleton<Player>
     Text percentage;
     public GameObject guitar, keyboard, techno, drums, idle;
     public GameObject guitarOBJ, keyboardOBJ, technoOBJ, drumsOBJ;
-    public Text scoreText; 
+    public Text scoreText;
     public float score = 0;
+
+    public int numberOfPeopleShaking = 0;
 
     private EnemyManager enemyManager;
     public EnemyType currentEnemy;
@@ -82,8 +84,12 @@ public class Player : Singleton<Player>
         if (Input.GetKeyUp(KeyCode.LeftArrow))
         {
             KeyUp(EnemyType.Reggae);
-
         }
+
+        //if (numberOfPeopleShaking != 0)
+        //{
+        //   // life -= numberOfPeopleShaking
+        //}
 
     }
 
@@ -221,19 +227,66 @@ public class Player : Singleton<Player>
         //Desativar onda
     }
 
-   public void addScore(float f)
+    public void addScore(float f)
     {
         score += f;
-        scoreText.text = score.ToString("0.00");
+        scoreText.text = "$" + score.ToString("0.00");
     }
 
+    #region Shake
     public void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.tag == "Enemy")
         {
             Debug.Log(collider.name);
-            collider.GetComponent<EnemyStandardBehaviour>().Die();
-
+            collider.GetComponent<EnemyStandardBehaviour>().Shake();
+            AddShake();
         }
     }
+    public void AddShake()
+    {
+        numberOfPeopleShaking++;
+        if (numberOfPeopleShaking == 1)
+            StartCoroutine("_shake");
+    }
+    public void removeShake()
+    {
+        numberOfPeopleShaking--;
+        if (numberOfPeopleShaking == 0)
+            StopCoroutine("_shake");
+    }
+
+    IEnumerator _shake()
+    {
+        Vector3 rot = new Vector3();
+        Vector3 dest = new Vector3();
+
+        dest.z = -10 * numberOfPeopleShaking / 3.0f;
+        while (numberOfPeopleShaking > 0)
+        {
+            while (Vector3.Distance(rot, dest) > 0.1)
+            {
+                rot = Vector3.Lerp(rot, dest, 0.1f);
+                transform.rotation = Quaternion.Euler(rot);
+                yield return new WaitForEndOfFrame();
+            }
+            if (dest.z > 0)
+            {
+                dest.z = -10 * numberOfPeopleShaking / 3.0f;
+                if (dest.z < -25)
+                {
+                    dest.z = -25;
+                }
+            }
+            else
+            {
+                dest.z = 10 * numberOfPeopleShaking / 3.0f;
+                if (dest.z > 25)
+                {
+                    dest.z = 25;
+                }
+            }
+        }
+    }
+    #endregion
 }
