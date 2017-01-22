@@ -49,7 +49,9 @@ public class EnemyManager : Singleton<EnemyManager>
     public float distanceToBeAffected;
     public float timetoWaitToEnjoy = 1f;
 
-    public float minRandom, maxRandom;
+    public AnimationCurve spawnCurve;
+    public float fastestSpawntime;
+    public float slowestSpawntime;
 
     // Use this for initialization
     void Start()
@@ -84,7 +86,7 @@ public class EnemyManager : Singleton<EnemyManager>
             case TypeGeneration.random:
                 while (true)
                 {
-                    float time = UnityEngine.Random.Range(minRandom * 100, maxRandom * 100) / 100;
+                    float time = fastestSpawntime + (slowestSpawntime-fastestSpawntime) * spawnCurve.Evaluate(Mathf.Min(Time.timeSinceLevelLoad, 90));
                     yield return new WaitForSeconds(time);
                     InstanceEnemy((EnemyType)UnityEngine.Random.Range(0, 4), i);
                     i++;

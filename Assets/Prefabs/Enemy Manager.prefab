@@ -89,5 +89,23 @@ MonoBehaviour:
   enemyInScene: []
   distanceToBeAffected: 5
   timetoWaitToEnjoy: 1
-  minRandom: 0
-  maxRandom: 2
+  spawnCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0.9999999
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0.036613397
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  fastestSpawntime: 0.1
+  slowestSpawntime: 1

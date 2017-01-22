@@ -66,8 +66,9 @@ public class EnemyManagerEditor : Editor
             list.DoLayoutList();
         if (typeGen == EnemyManager.TypeGeneration.random)
         {
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("minRandom"), true);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("maxRandom"), true);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("spawnCurve"), true);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("fastestSpawntime"), true);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("slowestSpawntime"), true);
         }
         EditorGUILayout.PropertyField(serializedObject.FindProperty("enemyPrefab"), true);
         EditorGUILayout.PropertyField(serializedObject.FindProperty("player"), true);

@@ -256,6 +256,7 @@ MonoBehaviour:
   walking: 0
   hating: 0
   receivedEnjoy: 0
+  shaking: 0
 --- !u!198 &198311202779380788
 ParticleSystem:
   m_ObjectHideFlags: 1
