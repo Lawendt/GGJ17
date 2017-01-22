@@ -120,10 +120,10 @@ public class EnemyStandardBehaviour : MonoBehaviour
         #endregion
 
 
-        for (int i = 0; i < heads.Length; i++)
-        {
-            heads[i].color = new Color(1, map(velocity, startVelocity, maxVelocity, 1, 0), map(velocity, startVelocity, maxVelocity, 1, 0));
-        }
+        //for (int i = 0; i < heads.Length; i++)
+        //{
+        //    heads[i].color = new Color(1, map(velocity, startVelocity, maxVelocity, 1, 0), map(velocity, startVelocity, maxVelocity, 1, 0));
+        //}
 
         //if (Vector2.Distance(transform.position, center) < 0.5)
         //{
@@ -205,6 +205,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
         //    Debug.Log("Stop Enjoy remove Shake");
         //    player.removeShake();
         //}
+
         animator.SetTrigger("Enjoy");
         walking = false;
         StartCoroutine("_scaleDown");
@@ -252,14 +253,17 @@ public class EnemyStandardBehaviour : MonoBehaviour
 
         if (timeToWait != 0)
             yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timeToWait);
-
+        for (int i = 0; i < heads.Length; i++)
+        {
+            heads[i].color = Color.red;
+        }
 
         float timerHate = 0;
         while (hating)
         {
             timerHate += Time.deltaTime;
             velocity += acceleration * Time.deltaTime;
-          
+
             if (velocity > maxVelocity)
             {
                 velocity = maxVelocity;
@@ -286,8 +290,8 @@ public class EnemyStandardBehaviour : MonoBehaviour
     }
     public void Hate(float timeToWait)
     {
-        if (StopHateCoroutine != null)
-            StopCoroutine(StopHateCoroutine);
+        //if (StopHateCoroutine != null)
+        //    StopCoroutine(StopHateCoroutine);
         hateCoroutine = StartCoroutine(_Hating(timeToWait));
     }
 
@@ -300,9 +304,11 @@ public class EnemyStandardBehaviour : MonoBehaviour
                 heads[i].color = Color.white;
             }
             hating = false;
+            velocity = startVelocity;
+
             if (hateCoroutine != null)
                 StopCoroutine(hateCoroutine);
-            StopHateCoroutine = StartCoroutine(_StopHating(timeToWait));
+            // StopHateCoroutine = StartCoroutine(_StopHating(timeToWait));
         }
     }
 

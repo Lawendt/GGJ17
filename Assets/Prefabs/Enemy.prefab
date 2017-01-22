@@ -253,8 +253,8 @@ MonoBehaviour:
   angle: 0
   length: 0
   velocity: 0
-  maxVelocity: 2
-  acceleration: 0.7
+  maxVelocity: 2.5
+  acceleration: 1
   walking: 0
   hating: 0
   receivedEnjoy: 0
