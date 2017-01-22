@@ -37,7 +37,7 @@ public class MusicManager : Singleton<MusicManager>
             yield return new WaitForEndOfFrame();
         }
 
-        source.Stop();
+        //source.Stop();
         if (action != null)
             action();
 
@@ -71,23 +71,22 @@ public class MusicManager : Singleton<MusicManager>
     {
         switch (type)
         {
+            case EnemyType.None:
+                ChangeSourceTo(0);
+                break;
             case EnemyType.Classic:
-                ChangeTrackTo(tracks[4]);
+                ChangeSourceTo(1);
                 break;
             case EnemyType.Punk:
-                ChangeTrackTo(tracks[6]);
-                break;
-            case EnemyType.Reggae:
-                ChangeTrackTo(tracks[3]);
+                ChangeSourceTo(2);
                 break;
             case EnemyType.Eletronic:
-                ChangeTrackTo(tracks[5]);
+                ChangeSourceTo(3);
                 break;
-            case EnemyType.None:
-                ChangeTrackTo(tracks[2]);
+            case EnemyType.Reggae:
+                ChangeSourceTo(4);
                 break;
-            default:
-                break;
+            
         }
     }
 
@@ -98,54 +97,25 @@ public class MusicManager : Singleton<MusicManager>
         {
             if(i != index)
             {
-                fadeOut(sources[i],5);
+                fadeOut(sources[i]);
             }
         }
     }
 
-    void ChangeTrackTo(AudioClip clip)
+    void ChangeSourceTo(int clipid)
     {
+        //Stop all coroutines for once!
         StopAllCoroutines();
-        fadeOutAllBut(-1);
 
-        if (clip == null)
-            return;
+        //Fade out all source files
+        fadeOutAllBut(clipid);
 
-        //Stop last source
-        sources[(++lastSource)%3].Stop();
+        //Start source (if it has not started already)
+        if (!sources[clipid].isPlaying)
+            sources[clipid].Play();
 
-        for (int i = 0; i < sources.Length; i++)
-        {
-            if(sources[i].isPlaying)
-            {
-                if (sources[i].clip == clip)
-                {
-                    if (sources[i].volume < 0.91)
-                    {
-                        fadeIn(sources[i]);
-                    }
-                    return;
-                }
-            }
-            else
-            {
-                //Fadeout all other sources besides this one
-                fadeOutAllBut(i);
-
-                //Override new clip for playing
-                sources[i].clip = clip;
-
-                //Play new clip
-                sources[i].Play();
-
-                //Fade in source volume
-                fadeIn(sources[i]);
-
-                return;
-            }   
-        }
-
-        
+        //Fade in source volume
+        fadeIn(sources[clipid]);
 
     }
 
