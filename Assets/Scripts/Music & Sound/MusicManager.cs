@@ -7,11 +7,21 @@ public class MusicManager : Singleton<MusicManager>
 {
     public AudioSource[] sources;
     public AudioClip[] tracks;
-    int lastTrack;
+    int lastSource = 0;
 
-    void fadeOut(AudioSource source, Action action = null)
+    public enum MusicTypes
     {
-        StartCoroutine(_fadeOut(source, action));
+        Reggae,
+        Eletronic,
+        Classic,
+        Punk,
+        None
+    };
+
+
+    void fadeOut(AudioSource source, float speed = 1.0f, Action action = null)
+    {
+        StartCoroutine(_fadeOut(source, speed, action));
     }
 
     void fadeIn(AudioSource source, Action action = null)
@@ -19,7 +29,7 @@ public class MusicManager : Singleton<MusicManager>
         StartCoroutine(_fadeIn(source, action));
     }
 
-    IEnumerator _fadeOut(AudioSource source, Action action = null)
+    IEnumerator _fadeOut(AudioSource source, float speed, Action action = null)
     {
         while (source.volume > 0.01)
         {
@@ -52,13 +62,91 @@ public class MusicManager : Singleton<MusicManager>
     {
         _dontDestroyOnLoad = true;
         _destroyExistentObject = true;
+        lastSource = 0;
+        sources[0].volume = 0;
+        ChangeMusicType(EnemyType.None);
     }
 
+    public void ChangeMusicType(EnemyType type)
+    {
+        switch (type)
+        {
+            case EnemyType.Classic:
+                ChangeTrackTo(tracks[4]);
+                break;
+            case EnemyType.Punk:
+                ChangeTrackTo(tracks[6]);
+                break;
+            case EnemyType.Reggae:
+                ChangeTrackTo(tracks[3]);
+                break;
+            case EnemyType.Eletronic:
+                ChangeTrackTo(tracks[5]);
+                break;
+            case EnemyType.None:
+                ChangeTrackTo(tracks[2]);
+                break;
+            default:
+                break;
+        }
+    }
+
+    void fadeOutAllBut(int index)
+    {
+        Debug.Log("Fading out all but " + index);
+        for (int i = 0; i < sources.Length; i++)
+        {
+            if(i != index)
+            {
+                fadeOut(sources[i],5);
+            }
+        }
+    }
 
     void ChangeTrackTo(AudioClip clip)
     {
         StopAllCoroutines();
+        fadeOutAllBut(-1);
+
+        if (clip == null)
+            return;
+
+        //Stop last source
+        sources[(++lastSource)%3].Stop();
+
+        for (int i = 0; i < sources.Length; i++)
+        {
+            if(sources[i].isPlaying)
+            {
+                if (sources[i].clip == clip)
+                {
+                    if (sources[i].volume < 0.91)
+                    {
+                        fadeIn(sources[i]);
+                    }
+                    return;
+                }
+            }
+            else
+            {
+                //Fadeout all other sources besides this one
+                fadeOutAllBut(i);
+
+                //Override new clip for playing
+                sources[i].clip = clip;
+
+                //Play new clip
+                sources[i].Play();
+
+                //Fade in source volume
+                fadeIn(sources[i]);
+
+                return;
+            }   
+        }
+
         
+
     }
 
 }
