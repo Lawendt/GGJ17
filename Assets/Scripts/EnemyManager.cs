@@ -86,7 +86,7 @@ public class EnemyManager : Singleton<EnemyManager>
             case TypeGeneration.random:
                 while (true)
                 {
-                    float time = fastestSpawntime + (slowestSpawntime-fastestSpawntime) * spawnCurve.Evaluate(Mathf.Min(Time.timeSinceLevelLoad, 90));
+                    float time = fastestSpawntime + (slowestSpawntime-fastestSpawntime) * spawnCurve.Evaluate(Mathf.Min(Time.timeSinceLevelLoad, 90.0f)/90.0f);
                     yield return new WaitForSeconds(time);
                     InstanceEnemy((EnemyType)UnityEngine.Random.Range(0, 4), i);
                     i++;
