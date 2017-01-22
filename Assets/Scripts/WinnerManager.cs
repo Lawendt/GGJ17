@@ -10,6 +10,7 @@ public class WinnerManager : MonoBehaviour
     bool firstGame;
     void Awake()
     {
+        Application.ExternalEval("if(kongregate){kongregate.stats.submit(\"trollolusque\", " + PlayerPrefs.GetFloat("Money") + ");}");
         firstGame = true;
         DontDestroyOnLoad(gameObject);
     }
@@ -32,6 +33,8 @@ public class WinnerManager : MonoBehaviour
     }
     void ActiveScene()
     {
+        PlayerPrefs.SetFloat("Money", money);
+        Application.ExternalEval("if(kongregate){kongregate.stats.submit(\"trollolusque\", " + PlayerPrefs.GetFloat("Money") + ");}");
         EndSceneManager end = GameObject.Find("EndSceneManager").GetComponent<EndSceneManager>();
         end.value = winner;
         end.score = money;
