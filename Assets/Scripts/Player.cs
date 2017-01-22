@@ -244,15 +244,15 @@ public class Player : Singleton<Player>
         {
             life = maxLife;
         }
-        if (life > maxLife / 2)
-        {
-            if (!rain.isPlaying)
-                rain.Play();
-        }
-        else if (rain.isPlaying)
-        {
-            rain.Stop();
-        }
+        //if (life > maxLife / 2)
+        //{
+        //    if (!rain.isPlaying)
+        //        rain.Play();
+        //}
+        //else if (rain.isPlaying)
+        //{
+        //    rain.Stop();
+        //}
     }
 
     #region Shake
@@ -293,7 +293,7 @@ public class Player : Singleton<Player>
         Vector3 rot = transform.rotation.eulerAngles;
         Vector3 dest = new Vector3();
 
-        dest.z = -13 * numberOfPeopleShaking / 5.0f;
+        dest.z = -10 * numberOfPeopleShaking / 3.0f;
         while (numberOfPeopleShaking > 0)
         {
             // Do transition from rot to dest based on lerp.
@@ -306,7 +306,7 @@ public class Player : Singleton<Player>
             // After transition is ended, change the target side. Check wether is positive/negative
             if (dest.z > 0)
             {
-                dest.z = -13 * numberOfPeopleShaking / 5.0f;
+                dest.z = -10 * numberOfPeopleShaking / 3.0f;
                 if (dest.z < -25)
                 {
                     dest.z = -25;
@@ -314,7 +314,7 @@ public class Player : Singleton<Player>
             }
             else
             {
-                dest.z = 13 * numberOfPeopleShaking / 5.0f;
+                dest.z = 10 * numberOfPeopleShaking / 3.0f;
                 if (dest.z > 25)
                 {
                     dest.z = 25;

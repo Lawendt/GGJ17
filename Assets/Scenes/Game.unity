@@ -1206,10 +1206,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
   _destroyExistentObject: 0
-  gameplayUI: {fileID: 1349077989456690, guid: 44f418a4559518d4f8e8679637cfe64a, type: 2}
   soundWaves: {fileID: 928500073}
   life: 1
   maxLife: 100
+  fill: {fileID: 2088613244}
+  percentage: {fileID: 2088613243}
   guitar: {fileID: 1915343350}
   keyboard: {fileID: 1728842829}
   techno: {fileID: 983872901}
@@ -1219,6 +1220,7 @@ MonoBehaviour:
   keyboardOBJ: {fileID: 192443288}
   technoOBJ: {fileID: 1158659150}
   drumsOBJ: {fileID: 1075100084}
+  rain: {fileID: 0}
   scoreText: {fileID: 1776202275}
   score: 0
   numberOfPeopleShaking: 0
@@ -2108,6 +2110,18 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 44f418a4559518d4f8e8679637cfe64a, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &2088613243 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114207210114486854, guid: 44f418a4559518d4f8e8679637cfe64a,
+    type: 2}
+  m_PrefabInternal: {fileID: 2088613242}
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+--- !u!114 &2088613244 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114260268762362458, guid: 44f418a4559518d4f8e8679637cfe64a,
+    type: 2}
+  m_PrefabInternal: {fileID: 2088613242}
+  m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1 &2092154099 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1724198161648682, guid: a99480c6f81ace046857db26c66def03,
