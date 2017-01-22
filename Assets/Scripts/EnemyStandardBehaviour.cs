@@ -114,10 +114,11 @@ public class EnemyStandardBehaviour : MonoBehaviour
 
     public void Die()
     {
-        if (shaking)
-        {
-            player.removeShake();
-        }
+        //if (shaking)
+        //{
+        //    Debug.Log("Die Shake");
+        //    player.removeShake();
+        //}
         EnemyManager.Instance.removeEnemy(this);
         Destroy(gameObject);
     }
@@ -171,12 +172,13 @@ public class EnemyStandardBehaviour : MonoBehaviour
     IEnumerator _waitToEnjoy(float timeToWait)
     {
         receivedEnjoy = true;
-        Debug.Log("Start Enjoy " + name + "\nTold to wait " + timeToWait);
+        //Debug.Log("Start Enjoy " + name + "\nTold to wait " + timeToWait);
         if (timeToWait != 0)
             yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timeToWait);
 
         if (shaking)
         {
+            Debug.Log("Stop Enjoy remove Shake");
             player.removeShake();
         }
         animator.SetTrigger("Enjoy");
@@ -187,7 +189,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
     IEnumerator _waitToStopEnjoying(float timeToWait)
     {
         receivedEnjoy = false;
-        Debug.Log("Stop Enjoy " + name);
+        //Debug.Log("Stop Enjoy " + name);
         yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timeToWait);
         star.Stop();
         if (!walking)
@@ -196,8 +198,9 @@ public class EnemyStandardBehaviour : MonoBehaviour
             animator.SetTrigger("StopEnjoying");
             walking = true;
         }
-        if (shaking && lifeEnemy > 0.2)
+        if (shaking && lifeEnemy > 0)
         {
+            Debug.Log("Stop Enjoy add Shake");
             player.AddShake();
             walking = false;
         }
@@ -210,7 +213,6 @@ public class EnemyStandardBehaviour : MonoBehaviour
 
     virtual public void StopEnjoying(float timeToWait)
     {
-
         StartCoroutine(_waitToStopEnjoying(timeToWait));
     }
     #endregion
@@ -220,7 +222,6 @@ public class EnemyStandardBehaviour : MonoBehaviour
     IEnumerator _Hating(float timeToWait)
     {
         hating = true;
-        Debug.Log("Start Enjoy " + name + "\nTold to wait " + timeToWait);
 
         if (timeToWait != 0)
             yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timeToWait);
