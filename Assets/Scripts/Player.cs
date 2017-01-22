@@ -29,6 +29,9 @@ public class Player : Singleton<Player>
     public EnemyType currentEnemy;
     // public Text debugCurrentEnemy;
 
+    public float loseByPerson;
+    public float earnByDollar;
+    
     void Start()
     {
         rainSound = rainPrefab.GetComponent<AudioSource>();
@@ -289,7 +292,7 @@ public class Player : Singleton<Player>
     {
         score += f;
         scoreText.text = "$" + score.ToString("0.00");
-        life += f/6;
+        life += f * earnByDollar;
         if (life > maxLife)
         {
             life = maxLife;

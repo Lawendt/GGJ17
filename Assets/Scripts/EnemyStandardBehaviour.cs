@@ -48,7 +48,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
         }
         set
         {
-            player.addScore((value - _lifeEnemy) * 7);
+            player.addScore((value - _lifeEnemy));
             _lifeEnemy = value;
         }
     }
@@ -128,6 +128,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
     }
 
     #region Enjoying
+    
     IEnumerator _scaleDown()
     {
 
@@ -208,6 +209,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
 
     virtual public void Enjoy(float timeToWait)
     {
+        StopAllCoroutines();
         StartCoroutine(_waitToEnjoy(timeToWait));
     }
 

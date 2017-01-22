@@ -1932,6 +1932,8 @@ MonoBehaviour:
   winner: {fileID: 0}
   numberOfPeopleShaking: 0
   currentEnemy: 0
+  loseByPerson: 0.8
+  earnByDollar: 0.4
   queueInteraction: 
 --- !u!114 &114139709018472566
 MonoBehaviour:

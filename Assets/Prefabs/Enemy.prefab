@@ -236,7 +236,7 @@ MonoBehaviour:
     m_RotationOrder: 0
   typeOfDeath: 1
   type: 0
-  velScaleDown: 1
+  velScaleDown: 0.25
   timeToThrow: 2
   highlight: {fileID: 1281264851647146}
   prefabType:
