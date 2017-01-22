@@ -92,7 +92,7 @@ public class MusicManager : Singleton<MusicManager>
 
     void fadeOutAllBut(int index)
     {
-        Debug.Log("Fading out all but " + index);
+        //Debug.Log("Fading out all but " + index);
         for (int i = 0; i < sources.Length; i++)
         {
             if(i != index)

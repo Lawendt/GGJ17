@@ -16,17 +16,23 @@ public class Player : Singleton<Player>
     public Text percentage;
     public GameObject guitar, keyboard, techno, drums, idle;
     public GameObject guitarOBJ, keyboardOBJ, technoOBJ, drumsOBJ;
-    public ParticleSystem rain;
+    public GameObject rainPrefab;
+    public LoadScene sceneManager;
     public Text scoreText;
     public float score = 0;
-
+    public WinnerManager winner;
     public int numberOfPeopleShaking = 0;
 
     private EnemyManager enemyManager;
+    ParticleSystem rain;
+    AudioSource rainSound;
     public EnemyType currentEnemy;
     // public Text debugCurrentEnemy;
+
     void Start()
     {
+        rainSound = rainPrefab.GetComponent<AudioSource>();
+        rain = rainPrefab.GetComponent<ParticleSystem>();
         addScore(0);
         life = 50;
         currentEnemy = EnemyType.None;
@@ -95,7 +101,39 @@ public class Player : Singleton<Player>
         {
             life -= numberOfPeopleShaking * Time.deltaTime;
         }
+        if (life < maxLife / 2)
+        {
+            if (!rain.isPlaying)
+            {
+                rain.Play();
+                rainSound.Play();
+            }
+            if (life <= 0f) //LOSS
+            {
+                Time.timeScale = 0f;
+                //Detonar particulas do palco
+                winner.winner = 1;
+                winner.money = score;
+                sceneManager.LoadingScene("EndGame");
+            }
+        }
+        else
+        {
+            if (rain.isPlaying)
+            {
+                rain.Stop();
+                rainSound.Stop();
+            }
+        }
+        if (score >= 100.0f) //WIN
+        {
+            Time.timeScale = 0f;
+            //Fade
+            winner.winner = 0;
+            winner.money = score;
+            sceneManager.LoadingScene("EndGame");
 
+        }
     }
 
     public void KeyUp(EnemyType type)
@@ -244,15 +282,6 @@ public class Player : Singleton<Player>
         {
             life = maxLife;
         }
-        //if (life > maxLife / 2)
-        //{
-        //    if (!rain.isPlaying)
-        //        rain.Play();
-        //}
-        //else if (rain.isPlaying)
-        //{
-        //    rain.Stop();
-        //}
     }
 
     #region Shake
