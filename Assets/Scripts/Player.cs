@@ -99,7 +99,7 @@ public class Player : Singleton<Player>
 
         if (numberOfPeopleShaking != 0)
         {
-            life -= numberOfPeopleShaking * Time.deltaTime;
+            life -= numberOfPeopleShaking* 1.7f * Time.deltaTime;
         }
         if (life < maxLife / 2)
         {
@@ -125,7 +125,19 @@ public class Player : Singleton<Player>
                 rainSound.Stop();
             }
         }
-        if (score >= 100.0f) //WIN
+        //// Win by Score
+        //if (score >= 1000.0f) //WIN
+        //{
+        //    Time.timeScale = 0f;
+        //    //Fade
+        //    winner.winner = 0;
+        //    winner.money = score;
+        //    sceneManager.LoadingScene("EndGame");
+
+        //}
+
+
+        if (Time.timeSinceLevelLoad >= 90) //WIN
         {
             Time.timeScale = 0f;
             //Fade
@@ -277,7 +289,7 @@ public class Player : Singleton<Player>
     {
         score += f;
         scoreText.text = "$" + score.ToString("0.00");
-        life += f * 2;
+        life += f/6;
         if (life > maxLife)
         {
             life = maxLife;
