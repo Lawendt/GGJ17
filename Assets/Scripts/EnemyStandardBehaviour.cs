@@ -2,8 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+
 public class EnemyStandardBehaviour : MonoBehaviour
 {
+    public float map(float value,
+                               float start1, float stop1,
+                               float start2, float stop2)
+    {
+        return
+          start2 + (stop2 - start2) * ((value - start1) / (stop1 - start1));
+    }
+
 
     public enum TypeOfDeath
     {
@@ -20,6 +31,8 @@ public class EnemyStandardBehaviour : MonoBehaviour
     public List<GameObject> prefabType;
     public SpriteRenderer[] heads;
     public ParticleSystem star, interrogation;
+    public float multiplierSpeed = 1.0f;
+    public float multiplierMaximum = 3.0f;
     #endregion
     #region Walk Parameters
     public Vector2 center;
@@ -33,8 +46,6 @@ public class EnemyStandardBehaviour : MonoBehaviour
     public bool hating;
     public bool receivedEnjoy;
     public bool shaking;
-    public float multiplierSpeed = 1.0f;
-    public float multiplierMaximum = 3.0f;
     #endregion
     #region Local references
     private float startLenght;
@@ -108,6 +119,12 @@ public class EnemyStandardBehaviour : MonoBehaviour
         }
         #endregion
 
+
+        for (int i = 0; i < heads.Length; i++)
+        {
+            heads[i].color = new Color(1, map(velocity, startVelocity, maxVelocity, 1, 0), map(velocity, startVelocity, maxVelocity, 1, 0));
+        }
+
         //if (Vector2.Distance(transform.position, center) < 0.5)
         //{
         //    //GetComponent<SpriteRenderer>().color = Color.red;
@@ -131,7 +148,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
     }
 
     #region Enjoying
-    
+
     IEnumerator _scaleDown()
     {
         persistanceMultiplier = 1.0f;
@@ -227,6 +244,8 @@ public class EnemyStandardBehaviour : MonoBehaviour
 
     #region Hate
     Coroutine hateCoroutine = null;
+    Coroutine StopHateCoroutine = null;
+
     IEnumerator _Hating(float timeToWait)
     {
         hating = true;
@@ -234,16 +253,13 @@ public class EnemyStandardBehaviour : MonoBehaviour
         if (timeToWait != 0)
             yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timeToWait);
 
-        for (int i = 0; i < heads.Length; i++)
-        {
-            heads[i].color = Color.red;
-        }
 
         float timerHate = 0;
         while (hating)
         {
             timerHate += Time.deltaTime;
             velocity += acceleration * Time.deltaTime;
+          
             if (velocity > maxVelocity)
             {
                 velocity = maxVelocity;
@@ -256,12 +272,26 @@ public class EnemyStandardBehaviour : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
     }
+
+    IEnumerator _StopHating(float timeToWait)
+    {
+        if (timeToWait != 0)
+            yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timeToWait);
+
+        while (velocity > startVelocity)
+        {
+            velocity -= acceleration * Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+    }
     public void Hate(float timeToWait)
     {
+        if (StopHateCoroutine != null)
+            StopCoroutine(StopHateCoroutine);
         hateCoroutine = StartCoroutine(_Hating(timeToWait));
     }
 
-    public void StopHating()
+    public void StopHating(float timeToWait)
     {
         if (hating)
         {
@@ -272,7 +302,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
             hating = false;
             if (hateCoroutine != null)
                 StopCoroutine(hateCoroutine);
-
+            StopHateCoroutine = StartCoroutine(_StopHating(timeToWait));
         }
     }
 

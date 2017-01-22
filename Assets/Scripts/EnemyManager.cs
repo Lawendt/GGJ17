@@ -214,7 +214,7 @@ public class EnemyManager : Singleton<EnemyManager>
         for (int i = 0; i < enemyInScene.Count; i++)
         {
             enemyInScene[i].EndConfuse();
-            enemyInScene[i].StopHating();
+            enemyInScene[i].StopHating(timetoWaitToEnjoy);
             if (enemyInScene[i].type == type)
             {
                 enemyInScene[i].StopEnjoying(timetoWaitToEnjoy);
