@@ -7,15 +7,16 @@ public class Player : Singleton<Player>
 {
     //[System.NonSerialized]
     //public Animator animator;
-    public GameObject gameplayUI;
+
     public WaveGenerator soundWaves;
     [Range(0f, 100f)]
     public float life = 100f;
     public int maxLife = 100;
-    Image fill;
-    Text percentage;
+    public Image fill;
+    public Text percentage;
     public GameObject guitar, keyboard, techno, drums, idle;
     public GameObject guitarOBJ, keyboardOBJ, technoOBJ, drumsOBJ;
+    public ParticleSystem rain;
     public Text scoreText;
     public float score = 0;
 
@@ -27,12 +28,11 @@ public class Player : Singleton<Player>
     void Start()
     {
         addScore(0);
-        life = (float)maxLife;
+        life = 50;
         currentEnemy = EnemyType.None;
         enemyManager = EnemyManager.Instance;
         //Animator = GetComponent<Animator>();
-        fill = gameplayUI.transform.GetChild(0).GetChild(0).GetComponent<Image>();
-        percentage = gameplayUI.transform.GetChild(0).GetChild(1).GetComponent<Text>();
+
 
         guitar.SetActive(false);
         keyboard.SetActive(false);
@@ -86,10 +86,10 @@ public class Player : Singleton<Player>
             KeyUp(EnemyType.Reggae);
         }
 
-        //if (numberOfPeopleShaking != 0)
-        //{
-        //   // life -= numberOfPeopleShaking
-        //}
+        if (numberOfPeopleShaking != 0)
+        {
+            life -= numberOfPeopleShaking * Time.deltaTime;
+        }
 
     }
 
@@ -231,6 +231,20 @@ public class Player : Singleton<Player>
     {
         score += f;
         scoreText.text = "$" + score.ToString("0.00");
+        life += f * 2;
+        if (life > maxLife)
+        {
+            life = maxLife;
+        }
+        if (life > maxLife / 2)
+        {
+            if (!rain.isPlaying)
+                rain.Play();
+        }
+        else if (rain.isPlaying)
+        {
+            rain.Stop();
+        }
     }
 
     #region Shake
@@ -249,10 +263,10 @@ public class Player : Singleton<Player>
     }
     public void AddShake()
     {
-        if (isFixingShake)
-        {
-            StopCoroutine("_fixShake");
-        }
+        //if (isFixingShake)
+        //{
+        //    StopCoroutine("_fixShake");
+        //}
         numberOfPeopleShaking++;
         if (numberOfPeopleShaking == 1)
             StartCoroutine("_shake");
@@ -263,7 +277,7 @@ public class Player : Singleton<Player>
         if (numberOfPeopleShaking == 0)
             StopCoroutine("_shake");
 
-        StartCoroutine("_fixShake");
+        //StartCoroutine("_fixShake");
     }
 
     IEnumerator _shake()
@@ -271,18 +285,20 @@ public class Player : Singleton<Player>
         Vector3 rot = transform.rotation.eulerAngles;
         Vector3 dest = new Vector3();
 
-        dest.z = -10 * numberOfPeopleShaking / 3.0f;
+        dest.z = -13 * numberOfPeopleShaking / 5.0f;
         while (numberOfPeopleShaking > 0)
         {
+            // Do transition from rot to dest based on lerp.
             while (Vector3.Distance(rot, dest) > 0.1)
             {
                 rot = Vector3.Lerp(rot, dest, 0.1f);
                 transform.rotation = Quaternion.Euler(rot);
                 yield return new WaitForEndOfFrame();
             }
+            // After transition is ended, change the target side. Check wether is positive/negative
             if (dest.z > 0)
             {
-                dest.z = -10 * numberOfPeopleShaking / 3.0f;
+                dest.z = -13 * numberOfPeopleShaking / 5.0f;
                 if (dest.z < -25)
                 {
                     dest.z = -25;
@@ -290,7 +306,7 @@ public class Player : Singleton<Player>
             }
             else
             {
-                dest.z = 10 * numberOfPeopleShaking / 3.0f;
+                dest.z = 13 * numberOfPeopleShaking / 5.0f;
                 if (dest.z > 25)
                 {
                     dest.z = 25;
@@ -301,33 +317,17 @@ public class Player : Singleton<Player>
 
     IEnumerator _fixShake()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         isFixingShake = true;
         Vector3 rot = transform.rotation.eulerAngles;
         Vector3 dest = new Vector3();
         while (Vector3.Distance(rot, dest) > 0.1)
         {
-            rot = Vector3.Lerp(rot, dest, 0.1f);
+            rot = Vector3.Lerp(rot, dest, 0.3f);
             transform.rotation = Quaternion.Euler(rot);
             yield return new WaitForEndOfFrame();
         }
-        if (dest.z > 0)
-        {
-            dest.z = -10 * numberOfPeopleShaking / 3.0f;
-            if (dest.z < -25)
-            {
-                dest.z = -25;
-            }
-        }
-        else
-        {
-            dest.z = 10 * numberOfPeopleShaking / 3.0f;
-            if (dest.z > 25)
-            {
-                dest.z = 25;
-            }
 
-        }
         isFixingShake = false;
 
     }

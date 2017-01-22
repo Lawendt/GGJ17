@@ -78,7 +78,7 @@ public class EnemyManager : Singleton<EnemyManager>
                     }
                     InstanceEnemy(enemy[i].type, i);
                     i++;
-                    i %= enemy.Count;
+                  //  i %= enemy.Count;
                 }
                 break;
             case TypeGeneration.random:
