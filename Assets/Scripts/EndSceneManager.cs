@@ -21,12 +21,12 @@ public class EndSceneManager : MonoBehaviour
         if (value == 0) //WINNER
         {
             win.SetActive(true);
-            mensage.text = "WINNER "+ score.ToString("F1") + "!";
+            mensage.text = "WINNER $"+ score.ToString("0.00") + "!";
         }
         else //LOSSER
         {
            loss.SetActive(true);
-            mensage.text = "LOSSER " + score.ToString("F1") + "!";
+            mensage.text = "LOSSER $" + score.ToString("0.00") + "!";
         }
     }
 }
