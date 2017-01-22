@@ -99,6 +99,12 @@ MonoBehaviour:
       outSlope: 0
       tangentMode: 0
     - serializedVersion: 2
+      time: 0.4655996
+      value: 0.85382915
+      inSlope: -1.0719895
+      outSlope: -1.0719895
+      tangentMode: 0
+    - serializedVersion: 2
       time: 1
       value: 0.036613397
       inSlope: 0
@@ -107,5 +113,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  fastestSpawntime: 0.1
+  fastestSpawntime: 0.01
   slowestSpawntime: 1
