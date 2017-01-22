@@ -114,11 +114,11 @@ public class EnemyStandardBehaviour : MonoBehaviour
 
     public void Die()
     {
-        //if (shaking)
-        //{
-        //    Debug.Log("Die Shake");
-        //    player.removeShake();
-        //}
+        if (shaking)
+        {
+            Debug.Log("Die Shake");
+            player.removeShake();
+        }
         EnemyManager.Instance.removeEnemy(this);
         Destroy(gameObject);
     }
@@ -176,11 +176,11 @@ public class EnemyStandardBehaviour : MonoBehaviour
         if (timeToWait != 0)
             yield return new WaitForSeconds(Vector2.Distance(transform.position, center) / startLenght * timeToWait);
 
-        if (shaking)
-        {
-            Debug.Log("Stop Enjoy remove Shake");
-            player.removeShake();
-        }
+        //if (shaking)
+        //{
+        //    Debug.Log("Stop Enjoy remove Shake");
+        //    player.removeShake();
+        //}
         animator.SetTrigger("Enjoy");
         walking = false;
         StartCoroutine("_scaleDown");
@@ -200,8 +200,8 @@ public class EnemyStandardBehaviour : MonoBehaviour
         }
         if (shaking && lifeEnemy > 0)
         {
-            Debug.Log("Stop Enjoy add Shake");
-            player.AddShake();
+            //Debug.Log("Stop Enjoy add Shake");
+            //player.AddShake();
             walking = false;
         }
     }
