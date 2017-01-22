@@ -99,7 +99,7 @@ public class Player : Singleton<Player>
 
         if (numberOfPeopleShaking != 0)
         {
-            life -= numberOfPeopleShaking* 1.7f * Time.deltaTime;
+            life -= numberOfPeopleShaking * Time.deltaTime;
         }
         if (life < maxLife / 2)
         {
