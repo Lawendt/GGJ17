@@ -26,7 +26,7 @@ public class EndSceneManager : MonoBehaviour
         else //LOSSER
         {
            loss.SetActive(true);
-            mensage.text = "LOSSER $" + score.ToString("0.00") + "!";
+            mensage.text = "LOSER $" + score.ToString("0.00") + "!";
         }
     }
 }
