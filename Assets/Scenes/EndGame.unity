@@ -241,6 +241,14 @@ Prefab:
       propertyPath: mensage
       value: 
       objectReference: {fileID: 58914674}
+    - target: {fileID: 4067668281758936, guid: 74bc9839ce2a5934c9b42c798465c494, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4067668281758936, guid: 74bc9839ce2a5934c9b42c798465c494, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 74bc9839ce2a5934c9b42c798465c494, type: 2}
   m_IsPrefabParent: 0

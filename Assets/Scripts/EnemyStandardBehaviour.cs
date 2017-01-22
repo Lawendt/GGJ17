@@ -48,7 +48,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
         }
         set
         {
-            player.addScore(value - _lifeEnemy);
+            player.addScore((value - _lifeEnemy) * 7);
             _lifeEnemy = value;
         }
     }
