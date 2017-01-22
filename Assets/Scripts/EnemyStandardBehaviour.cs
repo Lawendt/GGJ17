@@ -33,9 +33,12 @@ public class EnemyStandardBehaviour : MonoBehaviour
     public bool hating;
     public bool receivedEnjoy;
     public bool shaking;
+    public float multiplierSpeed = 1.0f;
+    public float multiplierMaximum = 3.0f;
     #endregion
     #region Local references
     private float startLenght;
+    private float persistanceMultiplier;
     Animator animator;
     float startVelocity;
     Player player;
@@ -131,7 +134,7 @@ public class EnemyStandardBehaviour : MonoBehaviour
     
     IEnumerator _scaleDown()
     {
-
+        persistanceMultiplier = 1.0f;
 
         switch (typeOfDeath)
         {
@@ -157,12 +160,15 @@ public class EnemyStandardBehaviour : MonoBehaviour
                 Vector2 start = v;
                 while (v.x > 0.15)
                 {
+                    //Increase multiplier
+                    persistanceMultiplier = Mathf.Clamp(persistanceMultiplier + multiplierSpeed * Time.deltaTime, 1.0f, multiplierMaximum);
+
                     if (!star.isPlaying)
                         star.Play();
                     v.x = (deathCurve.Evaluate(lifeEnemy)) * start.x;
                     v.y = (deathCurve.Evaluate(lifeEnemy)) * start.y;
                     transform.localScale = v;
-                    lifeEnemy += velScaleDown * Time.deltaTime;
+                    lifeEnemy += velScaleDown * Time.deltaTime * persistanceMultiplier;
                     yield return new WaitForEndOfFrame();
                 }
                 break;
